@@ -28,13 +28,13 @@
   .hero{position:relative;overflow:hidden;background:#0B0E12}
   .hero .bg{position:absolute;inset:0;background:url(img/bg5.jpg) center/cover no-repeat;opacity:.45;filter:saturate(.85)}
   .hero .veil{position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,14,18,.2),rgba(11,14,18,.75) 60%,#0B0E12)}
-  .hero .wrap{position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:20px;align-items:end;min-height:520px;padding-top:40px}
-  /* The three sprites are sized as shares of their own column, so the row can never
-     grow past it and drift over the title at a narrower window. */
-  .hero .art{display:flex;align-items:flex-end;justify-content:center;gap:0;min-height:360px;min-width:0}
-  .hero .art img{width:36%;height:auto;filter:drop-shadow(0 0 14px rgba(99,198,165,.35)) drop-shadow(0 14px 18px rgba(0,0,0,.8))}
-  .hero .art img.kn{width:30%;margin:0 -3%;z-index:2} .hero .art img.rg{width:38%;opacity:.9}
-  .hero .txt{text-align:center;padding-bottom:56px}
+  /* Symmetric: the title block centred, the three heirs in a row beneath it, sized as
+     shares of the row so they can never drift over the text at any width. */
+  .hero .wrap{position:relative;display:block;text-align:center;padding-top:44px}
+  .hero .art{display:flex;align-items:flex-end;justify-content:center;gap:2%;max-width:620px;margin:22px auto 0}
+  .hero .art img{width:33%;height:auto;filter:drop-shadow(0 10px 14px rgba(0,0,0,.75))}
+  .hero .art img.kn{width:26%;z-index:2} .hero .art img.rg{width:36%}
+  .hero .txt{text-align:center}
   .hero .mark{width:84px;display:block;margin:0 auto 4px;filter:drop-shadow(0 0 18px rgba(207,168,79,.35))}
   h1{font-size:72px;line-height:.95;letter-spacing:.06em;text-shadow:0 0 28px rgba(99,198,165,.35),0 4px 0 #0B0E12,0 6px 22px rgba(0,0,0,.9)}
   .tag{margin:18px auto 0;max-width:30rem;color:#B9B29E}
@@ -109,7 +109,7 @@
     .oaths li:hover{transform:translateY(-2px);border-color:var(--danger)} .oaths li:hover span{color:var(--bone)}
   }
   @media (prefers-reduced-motion:reduce){ *{animation:none!important;transition:none!important} }
-  @media (max-width:900px){ .pillars,.classes,.foes,.relics,.oaths{grid-template-columns:repeat(2,1fr)} .shots{grid-template-columns:repeat(2,1fr)} .foes .boss{grid-column:span 2} .hero .wrap{grid-template-columns:minmax(0,1fr);min-height:0} .hero .art{order:2;min-height:0} .hero .art img{width:34%} .hero .art img.kn{width:30%;margin:0} .hero .art img.rg{width:36%} .hero .txt{order:1;padding:20px 0 10px} h1{font-size:56px} }
+  @media (max-width:900px){ .pillars,.classes,.foes,.relics,.oaths{grid-template-columns:repeat(2,1fr)} .shots{grid-template-columns:repeat(2,1fr)} .foes .boss{grid-column:span 2} .hero .wrap{padding-top:28px} .hero .art{gap:1%} h1{font-size:56px} }
   @media (max-width:560px){ body{font-size:16px} .pillars,.classes,.foes,.relics,.oaths{grid-template-columns:1fr} .foes .boss{grid-column:span 1;grid-template-columns:104px 1fr} .foes .boss img{width:104px;height:104px} h1{font-size:46px} h2{font-size:28px} }
 </style>
 </head>
@@ -236,13 +236,13 @@
     <div class="foes">
       <figure><img src="img/z1_0.png" alt="" loading="lazy"><figcaption><b>Tomb Rat</b><span>It has eaten names off headstones. Yours would not be the first.</span></figcaption></figure><figure><img src="img/z1_1.png" alt="" loading="lazy"><figcaption><b>Skeleton</b><span>The Spire does not bury its dead. It employs them.</span></figcaption></figure><figure><img src="img/z1_2.png" alt="" loading="lazy"><figcaption><b>Grave Cultist</b><span>He dug so long for meaning that something answered.</span></figcaption></figure><figure><img src="img/z1_3.png" alt="" loading="lazy"><figcaption><b>Ghoul</b><span>Hunger taught it patience. The dark taught it everything else.</span></figcaption></figure>
       <figure class="elite"><img src="img/e1.png" alt="" loading="lazy"><figcaption><b>Bone Colossus</b><em>elite</em><span>A congregation of the dead that agreed, for once, on a shape.</span></figcaption></figure>
-      <figure class="boss"><img src="img/b1.png" alt="" loading="lazy"><figcaption><b>KHORVAX, the Interred</b><em>gate keeper</em><span>They buried him under the first floor. He kept the receipt.</span></figcaption></figure>
+      <figure class="boss"><img src="img/b1.png" alt="" loading="lazy"><figcaption><b>KHORVAX, the Interred</b><em>gate keeper</em><span>They buried him under the first floor. He remembers who held the spades.</span></figcaption></figure>
     </div>
   </section>
   <section class="zone">
     <h3><span class="dim">Floors 11 to 20</span>The Fungal Deep</h3>
     <div class="foes">
-      <figure><img src="img/z2_0.png" alt="" loading="lazy"><figcaption><b>Spore Drone</b><span>It was a miner once. The Deep found a better use for the body.</span></figcaption></figure><figure><img src="img/z2_1.png" alt="" loading="lazy"><figcaption><b>Myconid</b><span>It thinks in seasons. It kills in seconds.</span></figcaption></figure><figure><img src="img/z2_2.png" alt="" loading="lazy"><figcaption><b>Cave Crawler</b><span>It counts its legs when nervous. It is never nervous.</span></figcaption></figure><figure><img src="img/z2_3.png" alt="" loading="lazy"><figcaption><b>Blight Toad</b><span>Whatever it swallows continues, briefly, to scream.</span></figcaption></figure>
+      <figure><img src="img/z2_0.png" alt="" loading="lazy"><figcaption><b>Spore Drone</b><span>It was a miner once. The Deep found a better use for the body.</span></figcaption></figure><figure><img src="img/z2_1.png" alt="" loading="lazy"><figcaption><b>Myconid</b><span>It thinks in seasons. It kills in seconds.</span></figcaption></figure><figure><img src="img/z2_2.png" alt="" loading="lazy"><figcaption><b>Cave Crawler</b><span>It came out of the wall. It will go back in with you.</span></figcaption></figure><figure><img src="img/z2_3.png" alt="" loading="lazy"><figcaption><b>Blight Toad</b><span>Whatever it swallows continues, briefly, to scream.</span></figcaption></figure>
       <figure class="elite"><img src="img/e2.png" alt="" loading="lazy"><figcaption><b>Rot Shambler</b><em>elite</em><span>A garden that lost its gardener, then its temper.</span></figcaption></figure>
       <figure class="boss"><img src="img/b2.png" alt="" loading="lazy"><figcaption><b>MYRRA, Mother of Spores</b><em>gate keeper</em><span>Every breath you take in her halls is an introduction.</span></figcaption></figure>
     </div>
@@ -250,15 +250,15 @@
   <section class="zone">
     <h3><span class="dim">Floors 21 to 30</span>The Drowned Halls</h3>
     <div class="foes">
-      <figure><img src="img/z3_0.png" alt="" loading="lazy"><figcaption><b>Drowned One</b><span>The water finished with them. The grudge remained.</span></figcaption></figure><figure><img src="img/z3_1.png" alt="" loading="lazy"><figcaption><b>Siren Husk</b><span>The song moved out long ago. The mouth kept singing.</span></figcaption></figure><figure><img src="img/z3_2.png" alt="" loading="lazy"><figcaption><b>Brine Eel</b><span>Older than the flood that fed it. Angrier, too.</span></figcaption></figure><figure><img src="img/z3_3.png" alt="" loading="lazy"><figcaption><b>Coral Fiend</b><span>Beautiful the way a wound can be, from far enough away.</span></figcaption></figure>
+      <figure><img src="img/z3_0.png" alt="" loading="lazy"><figcaption><b>Drowned One</b><span>The water finished with them. The grudge remained.</span></figcaption></figure><figure><img src="img/z3_1.png" alt="" loading="lazy"><figcaption><b>Siren Husk</b><span>The song left long ago. The mouth kept singing.</span></figcaption></figure><figure><img src="img/z3_2.png" alt="" loading="lazy"><figcaption><b>Brine Eel</b><span>Older than the flood that fed it. Angrier, too.</span></figcaption></figure><figure><img src="img/z3_3.png" alt="" loading="lazy"><figcaption><b>Coral Fiend</b><span>Beautiful the way a wound can be, from far enough away.</span></figcaption></figure>
       <figure class="elite"><img src="img/e3.png" alt="" loading="lazy"><figcaption><b>Deep Warden</b><em>elite</em><span>It keeps the one law of the halls: everything sinks.</span></figcaption></figure>
-      <figure class="boss"><img src="img/b3.png" alt="" loading="lazy"><figcaption><b>ULHET, the Tidebound</b><em>gate keeper</em><span>The sea sent one ambassador. Negotiations are ongoing.</span></figcaption></figure>
+      <figure class="boss"><img src="img/b3.png" alt="" loading="lazy"><figcaption><b>ULHET, the Tidebound</b><em>gate keeper</em><span>The sea took these halls long ago. He is how it keeps them.</span></figcaption></figure>
     </div>
   </section>
   <section class="zone">
     <h3><span class="dim">Floors 31 to 40</span>The Ember Foundry</h3>
     <div class="foes">
-      <figure><img src="img/z4_0.png" alt="" loading="lazy"><figcaption><b>Forgeborn</b><span>Cooled wrong, cast wrong, and entirely certain it was made on purpose.</span></figcaption></figure><figure><img src="img/z4_1.png" alt="" loading="lazy"><figcaption><b>Slag Hound</b><span>Fetch means something different in the Foundry.</span></figcaption></figure><figure><img src="img/z4_2.png" alt="" loading="lazy"><figcaption><b>Cinder Wisp</b><span>A spark that refused the ash. Admirable. Lethal.</span></figcaption></figure><figure><img src="img/z4_3.png" alt="" loading="lazy"><figcaption><b>Pyromant</b><span>He asked the fire for wisdom. It taught him subtraction.</span></figcaption></figure>
+      <figure><img src="img/z4_0.png" alt="" loading="lazy"><figcaption><b>Forgeborn</b><span>Cooled wrong, cast wrong, and entirely certain it was made on purpose.</span></figcaption></figure><figure><img src="img/z4_1.png" alt="" loading="lazy"><figcaption><b>Slag Hound</b><span>Poured, not whelped. It has never once been cold.</span></figcaption></figure><figure><img src="img/z4_2.png" alt="" loading="lazy"><figcaption><b>Cinder Wisp</b><span>A spark that refused the ash. Admirable. Lethal.</span></figcaption></figure><figure><img src="img/z4_3.png" alt="" loading="lazy"><figcaption><b>Pyromant</b><span>He asked the fire for wisdom. It taught him the only thing it knows.</span></figcaption></figure>
       <figure class="elite"><img src="img/e4.png" alt="" loading="lazy"><figcaption><b>Molten Sentinel</b><em>elite</em><span>The Foundry's final inspection. You are the defect.</span></figcaption></figure>
       <figure class="boss"><img src="img/b4.png" alt="" loading="lazy"><figcaption><b>CALDUS, Furnace-King</b><em>gate keeper</em><span>His crown is a temperature.</span></figcaption></figure>
     </div>
@@ -314,7 +314,7 @@
 
 <footer><div class="wrap">
   <p>Hollow Spire is made by Selim Celem. <a href="https://selimcelem.github.io/hollow-spire/privacy/">Privacy policy</a> · <a href="mailto:selim.celem@gmail.com">selim.celem@gmail.com</a></p>
-  <p>Version 100.2, build 107. Grenze Gotisch is used under the SIL Open Font License.</p>
+  <p>Version 100.3, build 108. Grenze Gotisch is used under the SIL Open Font License.</p>
 </div></footer>
 </body>
 </html>
