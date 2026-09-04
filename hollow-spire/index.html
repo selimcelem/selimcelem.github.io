@@ -28,10 +28,12 @@
   .hero{position:relative;overflow:hidden;background:#0B0E12}
   .hero .bg{position:absolute;inset:0;background:url(img/bg5.jpg) center/cover no-repeat;opacity:.45;filter:saturate(.85)}
   .hero .veil{position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,14,18,.2),rgba(11,14,18,.75) 60%,#0B0E12)}
-  .hero .wrap{position:relative;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:20px;align-items:end;min-height:520px;padding-top:40px}
+  .hero .wrap{position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:20px;align-items:end;min-height:520px;padding-top:40px}
+  /* The three sprites are sized as shares of their own column, so the row can never
+     grow past it and drift over the title at a narrower window. */
   .hero .art{display:flex;align-items:flex-end;justify-content:center;gap:0;min-height:360px;min-width:0}
-  .hero .art img{height:300px;filter:drop-shadow(0 0 14px rgba(99,198,165,.35)) drop-shadow(0 14px 18px rgba(0,0,0,.8))}
-  .hero .art img.kn{height:340px;margin:0 -40px;z-index:2} .hero .art img.rg{height:250px;opacity:.9}
+  .hero .art img{width:36%;height:auto;filter:drop-shadow(0 0 14px rgba(99,198,165,.35)) drop-shadow(0 14px 18px rgba(0,0,0,.8))}
+  .hero .art img.kn{width:30%;margin:0 -3%;z-index:2} .hero .art img.rg{width:38%;opacity:.9}
   .hero .txt{text-align:center;padding-bottom:56px}
   .hero .mark{width:84px;display:block;margin:0 auto 4px;filter:drop-shadow(0 0 18px rgba(207,168,79,.35))}
   h1{font-size:72px;line-height:.95;letter-spacing:.06em;text-shadow:0 0 28px rgba(99,198,165,.35),0 4px 0 #0B0E12,0 6px 22px rgba(0,0,0,.9)}
@@ -51,8 +53,10 @@
   .shots img{display:block;width:100%;height:auto} .shots figcaption{padding:8px 12px;font-size:13px;color:var(--dim)}
   /* classes */
   .classes{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:0 0 26px}
-  .cls{display:grid;grid-template-columns:96px 1fr;gap:14px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px}
-  .cls img{width:96px;height:auto;align-self:start;filter:drop-shadow(0 0 10px rgba(99,198,165,.25))}
+  .cls{display:grid;grid-template-columns:124px 1fr;gap:14px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px}
+  /* Every heir sprite is drawn 190px tall in the game, so they are boxed by height here;
+     boxing by width shrank the wide ones (rogue, barbarian) next to the narrow knight. */
+  .cls img{width:124px;height:130px;object-fit:contain;object-position:center bottom;align-self:start;filter:drop-shadow(0 0 10px rgba(99,198,165,.25))}
   .cls h3{font-size:24px} .cls p{margin:2px 0 8px;font-size:15px}
   .cls dl{margin:0;font-size:14px} .cls dt{color:var(--verd);font-weight:600;margin-top:6px} .cls dd{margin:0;color:var(--bone)} .cd{color:var(--dim);font-size:12px;margin-left:4px}
   /* grimoire */
@@ -76,7 +80,7 @@
   .oaths li{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:12px} .oaths b{display:block;font-family:var(--disp);font-weight:600;font-size:18px} .oaths span{font-size:14px;color:var(--dim)}
   footer{border-top:1px solid var(--line);margin-top:30px;padding:26px 0 48px;color:var(--dim);font-size:14px}
   footer p{margin:0 0 6px}
-  @media (max-width:900px){ .pillars,.classes,.foes,.relics,.oaths{grid-template-columns:repeat(2,1fr)} .shots{grid-template-columns:repeat(2,1fr)} .foes .boss{grid-column:span 2} .hero .wrap{grid-template-columns:minmax(0,1fr);min-height:0} .hero .art{order:2;min-height:0} .hero .art img{height:auto;width:34%} .hero .art img.kn{width:30%;margin:0} .hero .art img.rg{width:36%} .hero .txt{order:1;padding:20px 0 10px} h1{font-size:56px} }
+  @media (max-width:900px){ .pillars,.classes,.foes,.relics,.oaths{grid-template-columns:repeat(2,1fr)} .shots{grid-template-columns:repeat(2,1fr)} .foes .boss{grid-column:span 2} .hero .wrap{grid-template-columns:minmax(0,1fr);min-height:0} .hero .art{order:2;min-height:0} .hero .art img{width:34%} .hero .art img.kn{width:30%;margin:0} .hero .art img.rg{width:36%} .hero .txt{order:1;padding:20px 0 10px} h1{font-size:56px} }
   @media (max-width:560px){ body{font-size:16px} .pillars,.classes,.foes,.relics,.oaths{grid-template-columns:1fr} .foes .boss{grid-column:span 1;grid-template-columns:104px 1fr} .foes .boss img{width:104px;height:104px} h1{font-size:46px} h2{font-size:28px} }
 </style>
 </head>
