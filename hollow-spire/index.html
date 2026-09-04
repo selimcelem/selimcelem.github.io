@@ -80,6 +80,35 @@
   .oaths li{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:12px} .oaths b{display:block;font-family:var(--disp);font-weight:600;font-size:18px} .oaths span{font-size:14px;color:var(--dim)}
   footer{border-top:1px solid var(--line);margin-top:30px;padding:26px 0 48px;color:var(--dim);font-size:14px}
   footer p{margin:0 0 6px}
+  /* life: the heroes breathe as they do in the game, the sealed hand pulses like a seal */
+  @keyframes breathe{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-5px) scale(1.012)}}
+  @keyframes sealglow{0%,100%{box-shadow:0 0 0 rgba(99,198,165,0)}50%{box-shadow:0 0 26px rgba(99,198,165,.28)}}
+  .hero .art img{animation:breathe 4.2s ease-in-out infinite;transform-origin:50% 100%} .hero .art img.kn{animation-delay:-1.4s} .hero .art img.rg{animation-delay:-2.8s}
+  .pillars div.seal{animation:sealglow 3.6s ease-in-out infinite}
+  .dice{display:inline-block;margin-left:8px;font-size:22px;line-height:1;color:var(--gold);transition:transform .8s cubic-bezier(.2,.8,.2,1);vertical-align:-3px}
+  .pillars div,.cls,.foes figure,.relics li,.oaths li,.shots figure,.pill,.cta{transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease,background .25s ease,color .25s ease}
+  .cls img,.foes img,.relics img,.foes figcaption span,.oaths span,.cls dt{transition:transform .3s ease,filter .3s ease,color .3s ease}
+  @media (hover:hover){
+    .pill:hover{border-color:var(--verd);color:var(--bone)}
+    .cta:hover{box-shadow:0 0 22px rgba(99,198,165,.35);background:rgba(99,198,165,.08)}
+    .pillars div:hover{transform:translateY(-3px);border-color:var(--verd);box-shadow:0 12px 30px rgba(0,0,0,.5),0 0 18px rgba(99,198,165,.15)}
+    .pillars div:hover .dice{transform:rotate(360deg)}
+    .shots figure:hover{transform:translateY(-4px) scale(1.01);box-shadow:0 16px 40px rgba(0,0,0,.6)}
+    .cls:hover{transform:translateY(-4px);border-color:var(--verd);box-shadow:0 14px 34px rgba(0,0,0,.55),0 0 22px rgba(99,198,165,.18)}
+    .cls:hover img{transform:scale(1.08) translateY(-3px);filter:drop-shadow(0 0 16px rgba(99,198,165,.65))}
+    .cls:hover dt{color:#8FE3C6}
+    .foes figure:hover{transform:translateY(-3px);border-color:var(--gold);background:var(--panel)}
+    .foes figure:hover img{transform:scale(1.1);filter:drop-shadow(0 0 16px rgba(207,168,79,.55))}
+    .foes figure:hover figcaption span{color:var(--bone)}
+    .foes .boss:hover{border-color:var(--danger)} .foes .boss:hover img{filter:drop-shadow(0 0 24px rgba(255,120,71,.75))}
+    .relics li:hover{transform:translateY(-2px)} .relics li:hover img{transform:scale(1.18)}
+    .r0 li:hover{border-color:var(--bone)} .r0 li:hover img{filter:drop-shadow(0 0 10px rgba(217,210,192,.5))}
+    .r1 li:hover{border-color:var(--verd)} .r1 li:hover img{filter:drop-shadow(0 0 12px rgba(99,198,165,.7))}
+    .r2 li:hover{border-color:var(--soul)} .r2 li:hover img{filter:drop-shadow(0 0 12px rgba(156,134,232,.75))}
+    .r3 li:hover{border-color:var(--myth);box-shadow:0 0 18px rgba(255,120,71,.25)} .r3 li:hover img{filter:drop-shadow(0 0 14px rgba(255,120,71,.85))}
+    .oaths li:hover{transform:translateY(-2px);border-color:var(--danger)} .oaths li:hover span{color:var(--bone)}
+  }
+  @media (prefers-reduced-motion:reduce){ *{animation:none!important;transition:none!important} }
   @media (max-width:900px){ .pillars,.classes,.foes,.relics,.oaths{grid-template-columns:repeat(2,1fr)} .shots{grid-template-columns:repeat(2,1fr)} .foes .boss{grid-column:span 2} .hero .wrap{grid-template-columns:minmax(0,1fr);min-height:0} .hero .art{order:2;min-height:0} .hero .art img{width:34%} .hero .art img.kn{width:30%;margin:0} .hero .art img.rg{width:36%} .hero .txt{order:1;padding:20px 0 10px} h1{font-size:56px} }
   @media (max-width:560px){ body{font-size:16px} .pillars,.classes,.foes,.relics,.oaths{grid-template-columns:1fr} .foes .boss{grid-column:span 1;grid-template-columns:104px 1fr} .foes .boss img{width:104px;height:104px} h1{font-size:46px} h2{font-size:28px} }
 </style>
@@ -110,8 +139,8 @@
   <p class="lead">Every door is a choice. Every tenth floor holds a gate keeper. When an heir falls, the souls they gathered return to the Manor, the gold feeds the Armory, and the next heir climbs stronger. The summit stands on floor 50. Each ascension hardens the Spire, and from the fourth it raises the summit, to floor 200 at Ascension 10.</p>
   <div class="pillars">
     <div><h3>The bloodline</h3><p>Each generation draws new heirs with their own traits. Whatever one dies holding can pass down as an heirloom.</p></div>
-    <div><h3>Sealed hands</h3><p>Relics drop as a hand of sealed cards. Break the seals, take one, the others burn. 21 of them change a rule rather than a number.</p></div>
-    <div><h3>Two dice a swing</h3><p>Your heir swings on their own. High rolls hit harder, your crit number scores a critical, and a cast at the peak of a swing lands Perfect.</p></div>
+    <div class="seal"><h3>Sealed hands</h3><p>Relics drop as a hand of sealed cards. Break the seals, take one, the others burn. 21 of them change a rule rather than a number.</p></div>
+    <div><h3>Two dice a swing<span class="dice" aria-hidden="true">&#9860;&#9857;</span></h3><p>Your heir swings on their own. High rolls hit harder, your crit number scores a critical, and a cast at the peak of a swing lands Perfect.</p></div>
   </div>
   <blockquote>The Spire does not bury its dead. It employs them.<cite>the Grimoire, on Skeletons</cite></blockquote>
 </div></section>
