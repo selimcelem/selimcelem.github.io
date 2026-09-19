@@ -112,6 +112,12 @@
     .r3 li:hover{border-color:var(--myth);box-shadow:0 0 18px rgba(255,120,71,.25)} .r3 li:hover img{filter:drop-shadow(0 0 14px rgba(255,120,71,.85))}
     .oaths li:hover{transform:translateY(-2px);border-color:var(--danger)} .oaths li:hover span{color:var(--bone)}
   }
+  .music{position:fixed;right:max(16px,env(safe-area-inset-right));bottom:max(16px,env(safe-area-inset-bottom));z-index:10;min-height:44px;padding:0 18px;
+    border:1px solid var(--line);border-radius:999px;background:rgba(15,19,27,.92);color:var(--bone);font:600 14px/1 var(--body);letter-spacing:.05em;cursor:pointer;
+    box-shadow:0 4px 18px rgba(0,0,0,.45);transition:border-color .2s,color .2s,box-shadow .2s}
+  .music b{color:var(--gold);font-size:17px;margin-right:6px} .music:hover{border-color:var(--gold)}
+  .music.on{border-color:var(--gold);color:var(--gold);box-shadow:0 0 16px rgba(207,168,79,.35)}
+  .music:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
   @media (prefers-reduced-motion:reduce){ *{animation:none!important;transition:none!important} }
   @media (max-width:900px){ .pillars,.classes,.foes,.relics,.oaths{grid-template-columns:repeat(2,1fr)} .shots{grid-template-columns:repeat(2,1fr)} .foes .boss{grid-column:span 2} .hero .wrap{padding-top:28px} .hero .art{gap:1%} h1{font-size:56px} }
   @media (max-width:560px){ body{font-size:16px} .pillars,.classes,.foes,.relics,.oaths{grid-template-columns:1fr} .foes .boss{grid-column:span 1;grid-template-columns:104px 1fr} .foes .boss img{width:104px;height:104px} h1{font-size:46px} h2{font-size:28px} }
@@ -322,5 +328,30 @@
   <p>Hollow Spire is made by Selim Celem. <a href="https://selimcelem.github.io/hollow-spire/privacy/">Privacy policy</a> · <a href="mailto:selim.celem@gmail.com">selim.celem@gmail.com</a></p>
   <p>Version 101.0, build 115. Grenze Gotisch is used under the SIL Open Font License.</p>
 </div></footer>
+<button class="music" id="music" type="button" aria-pressed="false" title="The House Remembers"><b aria-hidden="true">♪</b><span>Play music</span></button>
+<script>
+/* The House Remembers, the game's title score, off until tapped. The file holds one second
+   either side of a 36 s loop, so any window of that length from 1 s loops seamlessly. */
+(() => {
+  const b = document.getElementById('music'), LOOP = [1, 1 + 36], VOL = .8;
+  let ctx = null, buf = null, src = null, gain = null, on = false;
+  const show = () => { b.classList.toggle('on', on); b.setAttribute('aria-pressed', String(on)); b.lastChild.textContent = on ? 'Mute music' : 'Play music'; };
+  async function start() {
+    ctx = ctx || new (window.AudioContext || window.webkitAudioContext)();
+    ctx.resume();
+    if (!buf) buf = await ctx.decodeAudioData(await (await fetch('music/house-remembers.mp3')).arrayBuffer());
+    if (!on || src) return;
+    gain = ctx.createGain(); gain.connect(ctx.destination);
+    src = ctx.createBufferSource(); src.buffer = buf; src.loop = true; src.loopStart = LOOP[0]; src.loopEnd = LOOP[1]; src.connect(gain);
+    const t = ctx.currentTime; gain.gain.setValueAtTime(0, t); gain.gain.linearRampToValueAtTime(VOL, t + 2); src.start(t, LOOP[0]);
+  }
+  function stop() {
+    if (!src) return;
+    const t = ctx.currentTime, g = gain.gain;
+    g.cancelScheduledValues(t); g.setValueAtTime(g.value, t); g.linearRampToValueAtTime(0, t + .6); src.stop(t + .65); src = null;
+  }
+  b.addEventListener('click', () => { on = !on; show(); if (on) start().catch(() => { on = false; show(); }); else stop(); });
+})();
+</script>
 </body>
 </html>
