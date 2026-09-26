@@ -3,8 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#0B0E12">
 <title>Hollow Spire</title>
-<meta name="description" content="Hollow Spire is a dark fantasy roguelite for Android. Your line is cursed to climb. Each heir who falls feeds the Manor; each generation climbs higher.">
+<meta name="description" content="Hollow Spire is a dark fantasy roguelite for Android. The Hollow King stole our throne. The First Heir climbed to take it back and never returned. Every heir since has followed him. Each one who falls makes the Manor stronger.">
 <meta property="og:title" content="Hollow Spire">
 <meta property="og:description" content="A bloodline roguelike. Six heirs, over a hundred relics, and a summit that rises to floor 200.">
 <meta property="og:image" content="https://selimcelem.github.io/hollow-spire/img/feature.png">
@@ -13,8 +15,13 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Grenze+Gotisch:wght@600&display=swap" rel="stylesheet">
 <style>
-  :root{--bg:#0B0E12;--panel:#141922;--panel2:#0F131B;--line:#29323E;--bone:#D9D2C0;--dim:#8B8878;--verd:#63C6A5;--gold:#CFA84F;--soul:#9C86E8;--danger:#D14B41;--myth:#FF7847;
-        --disp:'Grenze Gotisch',Georgia,serif;--body:"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}
+  :root{--bg:#0B0E12;--panel:#141922;--panel2:#0F131B;--line:#29323E;--bone:#D9D2C0;--dim:#8B8878;--verd:#63C6A5;--gold:#CFA84F;--soul:#9C86E8;--danger:#D14B41;--myth:#FF7847;--scar:#C06CDE;
+        --disp:'Grenze Gotisch',Georgia,serif;--body:"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;--navh:52px}
+  /* The page is dark by design; saying so keeps a phone browser's own dark mode off it. */
+  @media (prefers-color-scheme:dark){:root{color-scheme:dark}}
+  @font-face{font-family:'HS Fell';font-style:normal;font-weight:400;font-display:swap;src:url(fonts/fell-regular.woff2) format('woff2')}
+  @font-face{font-family:'HS Fell';font-style:italic;font-weight:400;font-display:swap;src:url(fonts/fell-italic.woff2) format('woff2')}
+  @font-face{font-family:'HS Scrawl';font-style:normal;font-weight:400;font-display:swap;src:url(fonts/labelleaurore.woff2) format('woff2')}
   html{background:var(--bg);color-scheme:dark;scroll-behavior:smooth}
   body{margin:0;background:var(--bg);color:var(--bone);font-family:var(--body);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
   a{color:var(--verd);text-decoration:none;border-bottom:1px solid rgba(99,198,165,.35)} a:hover{border-bottom-color:var(--verd)}
@@ -22,8 +29,36 @@
   .dim{color:var(--dim)} .eyebrow{font-size:12px;letter-spacing:.34em;text-transform:uppercase;color:var(--dim);margin:0 0 8px}
   h1,h2,h3{font-family:var(--disp);font-weight:600;letter-spacing:.04em;color:#EDE6D2;margin:0}
   h2{font-size:34px;margin:0 0 6px} h3{font-size:24px}
-  section.block{padding:56px 0 8px;border-top:1px solid var(--line)}
+  section.block{padding:56px 0 8px;border-top:1px solid var(--line);scroll-margin-top:calc(var(--navh) + 4px)}
   section.block>.wrap>p.lead{max-width:44rem;margin:0 0 26px;color:var(--bone)}
+  /* the sections, one tap away: a sticky bar on a phone, a slim column on a desktop */
+  .nav{position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:10px;height:var(--navh);box-sizing:border-box;padding:0 max(14px,env(safe-area-inset-left));
+    background:rgba(11,14,18,.95);border-bottom:1px solid var(--line);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+  .nav .brand{display:flex;align-items:center;gap:8px;border:0;font-family:var(--disp);font-weight:600;font-size:20px;letter-spacing:.06em;color:#EDE6D2;white-space:nowrap}
+  .nav .brand img{width:26px;height:26px}
+  .nav .toggle{margin-left:auto;display:flex;align-items:center;gap:8px;min-height:40px;max-width:58%;padding:0 12px;border:1px solid var(--line);border-radius:8px;
+    background:var(--panel);color:var(--bone);font:600 14px/1 var(--body);letter-spacing:.02em;cursor:pointer}
+  .nav .toggle .cur{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .nav .toggle svg{flex:0 0 auto;transition:transform .2s}
+  .nav.open .toggle svg{transform:rotate(180deg)}
+  .nav .toggle:focus-visible,.nav a:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+  .nav ul{display:none;position:absolute;left:0;right:0;top:100%;margin:0;padding:10px 12px 14px;list-style:none;grid-template-columns:1fr 1fr;gap:2px 10px;
+    background:#0F131B;border-bottom:1px solid var(--line);box-shadow:0 18px 30px rgba(0,0,0,.6);max-height:calc(100vh - var(--navh));overflow:auto}
+  .nav.open ul{display:grid}
+  .nav ul a{display:block;padding:10px 12px;border:0;border-radius:6px;color:var(--bone);font-size:15px}
+  .nav ul a:hover{background:rgba(255,255,255,.04)}
+  .nav ul a[aria-current]{background:rgba(99,198,165,.12);color:#8FE3C6}
+  @media (min-width:1100px){
+    :root{--navh:0px}
+    body{padding-left:184px}
+    .nav{position:fixed;left:0;top:0;bottom:0;width:184px;height:auto;flex-direction:column;align-items:stretch;gap:0;padding:26px 14px;border-bottom:0;border-right:1px solid var(--line);background:#0B0E12}
+    .nav .brand{font-size:19px;padding:0 6px}
+    .nav .toggle{display:none}
+    .nav ul{display:flex;flex-direction:column;position:static;padding:22px 0 0;background:none;border:0;box-shadow:none;max-height:none;overflow:visible}
+    .nav ul a{padding:7px 10px;font-size:14.5px;border-left:2px solid transparent;border-radius:0 6px 6px 0}
+    .nav ul a[aria-current]{border-left-color:var(--verd)}
+    section.block{scroll-margin-top:0}
+  }
   /* hero */
   .hero{position:relative;overflow:hidden;background:#0B0E12}
   .hero .bg{position:absolute;inset:0;background:url(img/bg5.jpg) center/cover no-repeat;opacity:.45;filter:saturate(.85)}
@@ -42,14 +77,22 @@
   h1{font-size:72px;line-height:.95;letter-spacing:.06em;text-shadow:0 0 28px rgba(99,198,165,.35),0 4px 0 #0B0E12,0 6px 22px rgba(0,0,0,.9)}
   .tag{margin:18px auto 0;max-width:30rem;color:#B9B29E}
   .pill{display:inline-block;margin:14px 6px 0;padding:5px 12px;border:1px solid var(--line);border-radius:999px;font-size:13px;color:var(--dim)}
-  .cta{display:inline-block;margin:22px 0 0;padding:14px 26px;border:1px solid var(--verd);border-radius:8px;color:#EDE6D2;font-weight:600;letter-spacing:.04em}
-  .cta.muted{border-color:var(--line);color:var(--dim);font-weight:400;padding:10px 0;margin:18px 0 0}
+  .cta{display:inline-block;padding:12px 22px;border:1px solid var(--verd);border-radius:8px;color:#EDE6D2;font-weight:600;letter-spacing:.03em;background:rgba(11,14,18,.55)}
+  .hero .txt>.cta{margin:22px 0 0} .cta.web{margin:14px 0 0;border-color:var(--gold)}
+  .join{max-width:34rem;margin:22px auto 0;padding:16px 18px;border:1px solid var(--line);border-radius:12px;background:rgba(15,19,27,.82);text-align:left}
+  .join-h{margin:0 0 4px;font-weight:600;color:#EDE6D2} .join p{margin:0 0 12px;font-size:15px;color:#B9B29E}
+  .join .steps{display:flex;flex-wrap:wrap;gap:10px}
+  .join .cta{display:inline-flex;align-items:center;gap:10px;padding:10px 16px;font-size:15px}
+  .join .cta b{display:grid;place-items:center;width:24px;height:24px;border-radius:50%;border:1px solid var(--gold);color:var(--gold);font-size:13px}
   /* pillars */
-  .pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:0 0 20px}
+  .pillars{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:0 0 20px}
+  .pillars.three{grid-template-columns:repeat(3,1fr)}
   .pillars div{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px}
-  .pillars h3{font-size:22px;margin-bottom:6px} .pillars p{margin:0;color:var(--bone)}
+  .pillars h3{font-size:22px;margin-bottom:6px} .pillars p{margin:0;color:var(--bone)} .pillars p+p{margin-top:8px}
+  .pillars .gate{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
   blockquote{margin:26px 0 0;padding:0 0 0 16px;border-left:2px solid var(--gold);color:#B9B29E;font-style:italic}
   blockquote cite{display:block;font-style:normal;font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);margin-top:4px}
+  .sub{margin:30px 0 8px} .sub+p{max-width:44rem;margin:0 0 18px}
   /* screenshots */
   .shots{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:0 0 26px}
   .shots figure{margin:0;background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden}
@@ -70,17 +113,66 @@
   .foes figcaption b{display:block;color:#EDE6D2} .foes figcaption em{display:block;font-style:normal;font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--gold)}
   .foes figcaption span{display:block;font-size:14px;color:var(--dim);margin-top:4px}
   .foes .boss{grid-column:span 3;grid-template-columns:140px 1fr;border-color:rgba(209,75,65,.5)} .foes .boss img{width:140px;height:140px} .foes .boss em{color:var(--danger)}
-  .beyond{color:var(--dim);font-size:15px;margin:0 0 26px}
-  /* relics */
+  .beyond{color:var(--dim);font-size:15px;margin:0 0 26px;max-width:52rem}
+  /* relics and Crownscars */
   .rgroup{margin:0 0 26px} .rgroup h3{margin:0 0 10px} .rgroup h3 .dim{font-family:var(--body);font-size:14px;margin-left:8px}
   .relics{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
-  .relics li{display:grid;grid-template-columns:56px 1fr;gap:10px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:10px}
+  .relics li{display:grid;grid-template-columns:56px minmax(0,1fr);gap:10px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:10px}
   .relics img{width:56px;height:56px;object-fit:contain} .relics b{display:block;font-family:var(--disp);font-weight:600;font-size:17px;letter-spacing:.03em}
   .relics span{display:block;font-size:13px;color:var(--dim);line-height:1.4} .relics i{display:block;font-style:normal;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-top:3px}
+  .relics i.pr{color:var(--scar)}
   .r1 b{color:var(--verd)} .r2 b{color:var(--soul)} .r3 b{color:var(--myth)}
+  .scars b{color:var(--scar)} .scars span.price{color:#C98C84;margin-top:2px}
+  .scars span::before{display:inline-block;min-width:3.4em;font-size:10px;letter-spacing:.18em;color:var(--dim)} .scars span:not(.price)::before{content:"BOON"} .scars span.price::before{content:"PRICE"}
   /* oaths */
   .oaths{list-style:none;margin:0 0 26px;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
   .oaths li{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:12px} .oaths b{display:block;font-family:var(--disp);font-weight:600;font-size:18px} .oaths span{font-size:14px;color:var(--dim)}
+  /* the diary, in the book's hand: IM Fell on the book's paper, the drawings in ink on it */
+  .book{max-width:35rem;margin:0 auto 20px}
+  .entry{margin:0 0 30px;scroll-margin-top:calc(var(--navh) + 8px)}
+  .ehead{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;font-size:20px;margin:0 0 10px}
+  .ehead .no{color:var(--danger);font-size:16px;letter-spacing:.08em} .ehead .found{flex-basis:100%;font-family:var(--body);font-weight:400;font-size:13px;letter-spacing:.02em;color:var(--dim)}
+  /* The leaf is its own stacking group, the paper and its shadows beneath the writing, so a drawing's
+     multiply blend reaches the paper and the ink sits on it rather than on a white card. The paper is a
+     little brighter than in the game, which lights it by candle. */
+  .leaf{position:relative;isolation:isolate;margin:0 0 14px;border-radius:2px 5px 5px 2px;background:#b39468;box-shadow:0 14px 34px rgba(0,0,0,.6),0 3px 8px rgba(0,0,0,.5);overflow:hidden;color:#2b1a10}
+  .leaf::before{content:"";position:absolute;inset:0;z-index:-1;background:url(diary/page.webp) center/100% 100% no-repeat;filter:brightness(.95) saturate(.92) contrast(1.02)}
+  .leaf::after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(ellipse 85% 80% at 55% 48%,transparent 55%,#3a220f40 100%),linear-gradient(90deg,#1c0f0666 0,#1c0f0622 5%,transparent 12%)}
+  .leaf .ink{position:relative;padding:34px 30px 22px 40px;font-family:'HS Fell',Georgia,serif;font-size:18px;line-height:1.48}
+  .leaf .date{font-style:italic;font-size:15px;color:#2e1f14;margin:0 0 .6em} .leaf .date.cont{opacity:.55}
+  .leaf .body{position:relative}
+  .leaf .body p{margin:0 0 .62em} .leaf .body p:last-child{margin-bottom:0} .leaf .body p+p{clear:left}
+  .leaf .cap{float:left;font-family:var(--disp);font-weight:600;color:#7c2419;font-size:3.05em;line-height:.86;margin:.06em .09em 0 -.02em}
+  .leaf em{font-style:italic}
+  .leaf s{text-decoration:none;position:relative;color:#4a3222}
+  .leaf s::after{content:"";position:absolute;left:-2%;right:-2%;top:54%;height:1.6px;background:#2b1a10;border-radius:2px;transform:rotate(-1.5deg);opacity:.85}
+  .leaf .w{display:inline-block;white-space:pre}
+  .leaf .blot{position:absolute;width:var(--b,9px);height:var(--b,9px);border-radius:48% 52% 45% 55%;background:radial-gradient(circle at 45% 40%,#241208 0,#241208e0 55%,#24120800 72%);pointer-events:none}
+  .leaf .folio{margin:1.1em 0 0;text-align:center;font-size:12px;letter-spacing:.14em;color:#7c2419;opacity:.9}
+  .leaf .plate{margin:.3em 0 .8em;text-align:center}
+  .leaf .plate .art{position:relative}
+  .leaf .plate img{display:block;width:100%;height:auto;max-height:300px;object-fit:contain;mix-blend-mode:multiply;filter:sepia(.35) contrast(1.08) brightness(.97)}
+  .leaf .plate img.seal{position:absolute;right:2%;bottom:2%;width:58px;height:58px;mix-blend-mode:normal;filter:drop-shadow(0 2px 2px #0007);transform:rotate(-4deg)}
+  .leaf figcaption{font-style:italic;font-size:14.5px;color:#3d2a1c;margin-top:.2em}
+  .leaf .aside{font-family:var(--body);font-size:13px;line-height:1.45;color:#4a3222;background:rgba(255,246,225,.35);border-left:2px solid #7c2419;padding:6px 10px;margin:.5em 0 .8em;text-align:left}
+  .leaf.mad .body p{font-size:1.04em;margin:0 0 .45em}
+  .leaf .scrawl{font-family:'HS Scrawl',cursive;font-size:calc(1.9em * var(--s,1));line-height:1.05;color:#24130a;margin:.1em 0 .35em;transform-origin:0 60%}
+  .leaf.scrap{width:88%;margin:-2px auto 16px;transform:rotate(-.8deg)}
+  .leaf.scrap .ink{padding:18px 22px 20px 28px;font-size:16.5px;color:#1d130c}
+  .leaf .latehead{border-top:1px solid #4a322255;padding-top:.5em;color:#2e1f14}
+  .spoil{margin:34px 0;padding:20px 20px 22px;border:1px solid rgba(209,75,65,.55);border-radius:12px;background:linear-gradient(180deg,rgba(209,75,65,.08),rgba(15,19,27,.9))}
+  .spoil-h{margin:0 0 6px;font-family:var(--disp);font-weight:600;font-size:22px;letter-spacing:.03em;color:#F0B9A6}
+  .spoil p{margin:0 0 14px}
+  .spoil button,.closeb{min-height:44px;padding:0 18px;border:1px solid var(--danger);border-radius:8px;background:rgba(209,75,65,.12);color:#F3DCD2;font:600 15px/1 var(--body);letter-spacing:.03em;cursor:pointer}
+  .spoil button[aria-expanded="true"]{border-color:var(--line);background:var(--panel);color:var(--bone)}
+  .spoil button:focus-visible,.closeb:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+  .closeb{display:block;margin:10px auto 0;border-color:var(--line);background:var(--panel);color:var(--bone)}
+  .part{margin:36px 0 2px;font-size:28px;color:#EDE6D2} .partnote{margin:0 0 20px;color:var(--dim);font-size:15px;font-style:italic}
+  .contents{margin:0 0 10px;padding:12px 16px;border:1px solid var(--line);border-radius:10px;background:var(--panel)}
+  .contents summary{cursor:pointer;font-weight:600}
+  .contents ol{list-style:none;margin:10px 0 0;padding:0;columns:2;column-gap:20px;font-size:14.5px}
+  .contents li{break-inside:avoid;padding:2px 0} .contents a{border:0;color:var(--bone)} .contents a:hover{color:var(--verd)}
+  .contents .no{display:inline-block;min-width:3.3em;color:var(--danger);font-size:12.5px;letter-spacing:.06em}
   footer{border-top:1px solid var(--line);margin-top:30px;padding:26px 0 48px;color:var(--dim);font-size:14px}
   footer p{margin:0 0 6px}
   /* life: the heroes breathe as they do in the game, the sealed hand pulses like a seal */
@@ -88,8 +180,13 @@
   @keyframes sealglow{0%,100%{box-shadow:0 0 0 rgba(99,198,165,0)}50%{box-shadow:0 0 26px rgba(99,198,165,.28)}}
   .hero .art img{animation:breathe 4.2s ease-in-out infinite;transform-origin:50% 100%} .hero .art img.kn{animation-delay:-1.4s} .hero .art img.rg{animation-delay:-2.8s}
   .pillars div.seal{animation:sealglow 3.6s ease-in-out infinite}
-  .dice{display:inline-flex;gap:4px;margin-left:10px;transition:transform .8s cubic-bezier(.2,.8,.2,1);vertical-align:-4px;filter:drop-shadow(0 2px 3px rgba(0,0,0,.6))}
-  .dice svg:last-child{transform:rotate(14deg)}
+  .dice{display:inline-flex;gap:5px;margin-left:10px;transition:transform .8s cubic-bezier(.2,.8,.2,1);vertical-align:-5px}
+  .dice img{width:26px;height:26px;filter:drop-shadow(0 2px 3px rgba(0,0,0,.6))}
+  .dice img:last-child{transform:rotate(14deg)}
+  /* A tap or click rolls them, on a phone too, where there is no hover. */
+  @keyframes diceroll{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+  .dice.roll{animation:diceroll .8s cubic-bezier(.2,.8,.2,1)}
+  .pillars div:has(.dice){cursor:pointer}
   .pillars div,.cls,.foes figure,.relics li,.oaths li,.shots figure,.pill,.cta{transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease,background .25s ease,color .25s ease}
   .cls img,.foes img,.relics img,.foes figcaption span,.oaths span,.cls dt{transition:transform .3s ease,filter .3s ease,color .3s ease}
   @media (hover:hover){
@@ -110,6 +207,7 @@
     .r1 li:hover{border-color:var(--verd)} .r1 li:hover img{filter:drop-shadow(0 0 12px rgba(99,198,165,.7))}
     .r2 li:hover{border-color:var(--soul)} .r2 li:hover img{filter:drop-shadow(0 0 12px rgba(156,134,232,.75))}
     .r3 li:hover{border-color:var(--myth);box-shadow:0 0 18px rgba(255,120,71,.25)} .r3 li:hover img{filter:drop-shadow(0 0 14px rgba(255,120,71,.85))}
+    .scars li:hover{border-color:var(--scar)} .scars li:hover img{filter:drop-shadow(0 0 12px rgba(192,108,222,.75))}
     .oaths li:hover{transform:translateY(-2px);border-color:var(--danger)} .oaths li:hover span{color:var(--bone)}
   }
   .music{position:fixed;right:max(16px,env(safe-area-inset-right));bottom:max(16px,env(safe-area-inset-bottom));z-index:10;min-height:44px;padding:0 18px;
@@ -118,23 +216,35 @@
   .music b{color:var(--gold);font-size:17px;margin-right:6px} .music:hover{border-color:var(--gold)}
   .music.on{border-color:var(--gold);color:var(--gold);box-shadow:0 0 16px rgba(207,168,79,.35)}
   .music:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
-  @media (prefers-reduced-motion:reduce){ *{animation:none!important;transition:none!important} }
-  @media (max-width:900px){ .pillars,.classes,.foes,.relics,.oaths{grid-template-columns:repeat(2,1fr)} .shots{grid-template-columns:repeat(2,1fr)} .foes .boss{grid-column:span 2} .hero .wrap{padding-top:28px} .hero .art{gap:1%} h1{font-size:56px} }
-  @media (max-width:560px){ body{font-size:16px} .pillars,.classes,.foes,.relics,.oaths{grid-template-columns:1fr} .foes .boss{grid-column:span 1;grid-template-columns:104px 1fr} .foes .boss img{width:104px;height:104px} h1{font-size:46px} h2{font-size:28px} }
-  @media (max-width:360px){ .cls{grid-template-columns:96px minmax(0,1fr)} .cls img{width:96px} }
+  @media (prefers-reduced-motion:reduce){ *{animation:none!important;transition:none!important} html{scroll-behavior:auto} }
+  @media (max-width:900px){ .pillars,.pillars.three,.classes,.foes,.relics,.oaths{grid-template-columns:repeat(2,1fr)} .shots{grid-template-columns:repeat(2,1fr)} .foes .boss{grid-column:span 2} .hero .wrap{padding-top:28px} .hero .art{gap:1%} h1{font-size:56px} }
+  @media (max-width:560px){ body{font-size:16px} .wrap{padding:0 16px} .pillars,.pillars.three,.classes,.foes,.relics,.oaths{grid-template-columns:1fr} .foes .boss{grid-column:span 1;grid-template-columns:104px 1fr} .foes .boss img{width:104px;height:104px} h1{font-size:46px} h2{font-size:28px}
+    .leaf .ink{padding:26px 20px 18px 28px;font-size:17px} .leaf.scrap{width:94%} .leaf.scrap .ink{padding:16px 16px 16px 22px;font-size:16px} .contents ol{columns:1} .join{padding:14px} }
+  @media (max-width:360px){ .cls{grid-template-columns:96px minmax(0,1fr)} .cls img{width:96px} .nav .brand span{display:none} .nav .toggle{max-width:70%} }
 </style>
 </head>
 <body>
-<header class="hero">
+<nav class="nav" id="nav" aria-label="Sections">
+  <a class="brand" href="#top"><img src="img/asc_eclipse.png" alt=""><span>Hollow Spire</span></a>
+  <button class="toggle" type="button" aria-expanded="false" aria-controls="nav-list"><span class="cur">Sections</span><svg width="12" height="8" viewBox="0 0 12 8" aria-hidden="true"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></button>
+  <ul id="nav-list"><li><a href="#climb">The climb</a></li><li><a href="#shots">Screens</a></li><li><a href="#heirs">Heirs</a></li><li><a href="#manor">The Manor</a></li><li><a href="#ways">Ways to climb</a></li><li><a href="#crown">Take the Crown</a></li><li><a href="#grimoire">Grimoire</a></li><li><a href="#relics">Relics</a></li><li><a href="#oaths">Oaths</a></li></ul>
+</nav>
+<header class="hero" id="top">
   <div class="bg"></div><div class="veil"></div>
   <div class="wrap">
     <div class="txt">
       <img class="mark" src="img/asc_eclipse.png" alt="">
       <p class="eyebrow">a bloodline roguelike</p>
       <h1>HOLLOW SPIRE</h1>
-      <p class="tag">Your line is cursed to climb. Each heir who falls feeds the Manor; each generation climbs higher. Reach the Sovereign at floor 50.</p>
+      <p class="tag">The Hollow King stole our throne. The First Heir climbed to take it back and never returned. Every heir since has followed him. Each one who falls makes the Manor stronger.</p>
       <div><span class="pill">Android</span><span class="pill">Free</span><span class="pill">No ads</span><span class="pill">Plays offline</span></div>
-      <p class="cta muted">Coming to Google Play. A closed test is running now.</p>
+      
+      <div class="join">
+        <p class="join-h">Hollow Spire is in a closed test on Google Play.</p>
+        <p>Join the Google group first, then install the game from Google Play. Use the same Google account for both.</p>
+        <div class="steps"><a class="cta" href="https://groups.google.com/g/hollowspire"><b>1</b>Join the Google group</a><a class="cta" href="https://play.google.com/store/apps/details?id=com.selimcelem.hollowspire"><b>2</b>Install from Google Play</a></div>
+      </div>
+      
     </div>
     <div class="art">
       <img src="img/hero_barbarian.png" alt="">
@@ -143,17 +253,17 @@
     </div>
   </div>
 </header>
-
+<main>
 <section class="block" id="climb"><div class="wrap">
   <p class="eyebrow">the climb</p>
   <h2>Death is expected</h2>
-  <p class="lead">Every door is a choice. Every tenth floor holds a gate keeper. When an heir falls, the souls they gathered return to the Manor, the gold feeds the Armory, and the next heir climbs stronger. The summit stands on floor 50. Each ascension hardens the Spire, and from the fourth it raises the summit, to floor 200 at Ascension 10.</p>
+  <p class="lead">Every door is a choice. Every tenth floor holds a gate-keeper. When an heir falls, the souls they gathered return to the Manor, the gold feeds the Armory, and the next heir climbs stronger. The summit stands on floor 50 at first. Each ascension makes the Spire harder. From Ascension 4 the summit rises too, to floor 200 at Ascension 10, where the Hollow King waits.</p>
   <div class="pillars">
     <div><h3>The bloodline</h3><p>Each generation draws new heirs with their own traits. Whatever one dies holding can pass down as an heirloom.</p></div>
-    <div class="seal"><h3>Sealed hands</h3><p>Relics drop as a hand of sealed cards. Break the seals, take one, the others burn. 21 of them change a rule rather than a number.</p></div>
-    <div><h3>Two dice a swing<span class="dice" aria-hidden="true"><svg viewBox="0 0 20 20" width="24" height="24"><rect x="1" y="1" width="18" height="18" rx="4" fill="#E9E1CB" stroke="#0B0E12" stroke-width="1.2"/><circle cx="5" cy="5" r="1.9" fill="#1A1410"/><circle cx="15" cy="15" r="1.9" fill="#1A1410"/><circle cx="5" cy="15" r="1.9" fill="#1A1410"/><circle cx="15" cy="5" r="1.9" fill="#1A1410"/><circle cx="10" cy="10" r="1.9" fill="#1A1410"/></svg><svg viewBox="0 0 20 20" width="24" height="24"><rect x="1" y="1" width="18" height="18" rx="4" fill="#E9E1CB" stroke="#0B0E12" stroke-width="1.2"/><circle cx="5" cy="5" r="1.9" fill="#1A1410"/><circle cx="15" cy="15" r="1.9" fill="#1A1410"/><circle cx="10" cy="10" r="1.9" fill="#1A1410"/></svg></span></h3><p>Your heir swings on their own. High rolls hit harder, your crit number scores a critical, and a cast at the peak of a swing lands Perfect.</p></div>
+    <div class="seal"><h3>Sealed hands</h3><p>Relics drop as a hand of sealed cards. Break the seals, take one, the others burn. Of the 104 relics, 21 change a rule rather than a number.</p></div>
+    <div><h3>Two dice a swing<span class="dice" aria-hidden="true"><img src="img/die_bone_5.png" alt="" width="26" height="26"><img src="img/die_bone_3.png" alt="" width="26" height="26"></span></h3><p>Your heir swings on their own, and two dice roll with every swing. A high roll hits harder, and a roll at your crit number or above is a crit. Cast an ability at the peak of a swing and it lands Perfect.</p></div>
+    <div><h3>Break the Barrier</h3><p>From Ascension 4, every gate-keeper stands behind a Barrier that turns away 25% to 50% of your damage. A ring fills around the Break button; tap Break when the ring reaches 100% to wear the Barrier down.</p></div>
   </div>
-  <h3>Bellows &amp; Hammer</h3><p class="lead">Choose a piece, then practice the work for free before spending gold. Heat, three blows, quench: each in gold is Perfect. Five Perfect marks make a Masterwork.</p>
   <blockquote>The Spire does not bury its dead. It employs them.<cite>the Grimoire, on Skeletons</cite></blockquote>
 </div></section>
 
@@ -161,7 +271,7 @@
   <p class="eyebrow">on the phone</p>
   <h2>Screens</h2>
   <div class="shots">
-    <figure><img src="img/01-boss-drowned-halls.jpg" alt="" loading="lazy" width="540" height="960"><figcaption>A gate keeper in the Drowned Halls</figcaption></figure><figure><img src="img/02-the-sovereign.jpg" alt="" loading="lazy" width="540" height="960"><figcaption>The Sovereign, floor 50</figcaption></figure><figure><img src="img/03-elite-ember-foundry.jpg" alt="" loading="lazy" width="540" height="960"><figcaption>An elite in the Ember Foundry</figcaption></figure><figure><img src="img/04-relic-offer.jpg" alt="" loading="lazy" width="540" height="960"><figcaption>Three seals, one hand</figcaption></figure><figure><img src="img/05-choose-a-door.jpg" alt="" loading="lazy" width="540" height="960"><figcaption>Every door is a choice</figcaption></figure><figure><img src="img/06-choose-an-heir.jpg" alt="" loading="lazy" width="540" height="960"><figcaption>Choose an heir</figcaption></figure><figure><img src="img/07-the-manor.jpg" alt="" loading="lazy" width="540" height="960"><figcaption>The Manor</figcaption></figure><figure><img src="img/08-the-codex.jpg" alt="" loading="lazy" width="540" height="960"><figcaption>The Grimoire</figcaption></figure><figure><img src="img/09-the-hollow-king.jpg" alt="" loading="lazy" width="540" height="960"><figcaption>The Hollow King, floor 200</figcaption></figure><figure><img src="img/10-two-heirs.jpg" alt="" loading="lazy" width="540" height="960"><figcaption>Two Heirs, one climb</figcaption></figure><figure><img src="img/11-a-crowned-heir.jpg" alt="" loading="lazy" width="540" height="960"><figcaption>A crowned heir returns</figcaption></figure><figure><img src="img/12-the-forge.jpg" alt="" loading="lazy" width="540" height="960"><figcaption>Bellows and hammer</figcaption></figure>
+    <figure><img src="img/01-a-gate-keeper-in-the-drowned-halls.jpg" alt="" loading="lazy" width="540" height="960"><figcaption>A gate-keeper in the Drowned Halls</figcaption></figure><figure><img src="img/02-the-sovereign-floor-50.jpg" alt="" loading="lazy" width="540" height="960"><figcaption>The Sovereign, floor 50</figcaption></figure><figure><img src="img/03-an-elite-in-the-ember-foundry.jpg" alt="" loading="lazy" width="540" height="960"><figcaption>An elite in the Ember Foundry</figcaption></figure><figure><img src="img/04-three-seals-one-hand.jpg" alt="" loading="lazy" width="540" height="960"><figcaption>Three seals, one hand</figcaption></figure><figure><img src="img/05-twenty-relics-from-prestige-1.jpg" alt="" loading="lazy" width="540" height="960"><figcaption>Twenty relics from Prestige 1</figcaption></figure><figure><img src="img/06-every-door-is-a-choice.jpg" alt="" loading="lazy" width="540" height="960"><figcaption>Every door is a choice</figcaption></figure><figure><img src="img/07-choose-an-heir.jpg" alt="" loading="lazy" width="540" height="960"><figcaption>Choose an heir</figcaption></figure><figure><img src="img/08-the-manor.jpg" alt="" loading="lazy" width="540" height="960"><figcaption>The Manor</figcaption></figure><figure><img src="img/09-the-vault.jpg" alt="" loading="lazy" width="540" height="960"><figcaption>The Vault</figcaption></figure><figure><img src="img/10-the-grimoire.jpg" alt="" loading="lazy" width="540" height="960"><figcaption>The Grimoire</figcaption></figure><figure><img src="img/11-the-first-heir-s-diary.jpg" alt="" loading="lazy" width="540" height="960"><figcaption>The First Heir's Diary</figcaption></figure><figure><img src="img/12-the-hollow-king-floor-200.jpg" alt="" loading="lazy" width="540" height="960"><figcaption>The Hollow King, floor 200</figcaption></figure><figure><img src="img/13-two-heirs-one-climb.jpg" alt="" loading="lazy" width="540" height="960"><figcaption>Two Heirs, one climb</figcaption></figure><figure><img src="img/14-a-crowned-heir-returns.jpg" alt="" loading="lazy" width="540" height="960"><figcaption>A crowned heir returns</figcaption></figure><figure><img src="img/15-a-crownscar-one-boon-one-price.jpg" alt="" loading="lazy" width="540" height="960"><figcaption>A Crownscar: one boon, one price</figcaption></figure><figure><img src="img/16-bellows-and-hammer.jpg" alt="" loading="lazy" width="540" height="960"><figcaption>Bellows and hammer</figcaption></figure>
   </div>
 </div></section>
 
@@ -238,17 +348,48 @@
   </article></div>
 </div></section>
 
+<section class="block" id="manor"><div class="wrap">
+  <p class="eyebrow">between climbs</p>
+  <h2>The Manor</h2>
+  <p class="lead">The Manor belongs to the whole line: what one heir buys there, every heir after keeps.</p>
+  <div class="pillars three">
+    <div><h3>The Manor</h3><p>Souls buy its ranks. A rank is kept by every heir who comes after.</p></div>
+    <div><h3>The Armory</h3><p>Gold buys the line's gear: a weapon, armor and a charm, one tier at a time. Every heir carries all three.</p></div>
+    <div><h3>The Vault</h3><p>A felled gate-keeper can leave a vestige. The Vault keeps every vestige you find, and each heir wears one Arms, one Ward and one Sign on every climb.</p></div>
+  </div>
+  <h3 class="sub">Bellows &amp; Hammer</h3><p>Choose a piece, then practice the work for free before spending gold. Heat, three blows, quench: each in gold is Perfect. Five Perfect marks make a Masterwork.</p>
+</div></section>
+
+<section class="block" id="ways"><div class="wrap">
+  <p class="eyebrow">eclipse sigils</p>
+  <h2>Ways to climb</h2>
+  <p class="lead">Each ascension leaves an Eclipse Sigil. Spend a Sigil to bind a boon of your choice to the bloodline. Three of the boons are new ways to climb.</p>
+  <div class="pillars three"><div><h3>A Body for Two</h3><p>Before a climb, invite a visitor: one of the house's dead lends your heir an ability from another class.</p><p class="gate">Opens at Ascension 5.</p></div><div><h3>The Broken Stair</h3><p>A climb of keepers only, one after another, with a heal between them.</p><p class="gate">Opens at Prestige 1.</p></div><div><h3>Two Heirs</h3><p>Two heirs climb at once and fight together; tap one to lead. Each reward goes to one of them. If one heir falls, the relics that heir carried are lost.</p><p class="gate">Opens at Ascension 8.</p></div></div>
+</div></section>
+
+<section class="block" id="crown"><div class="wrap">
+  <p class="eyebrow">floor 200 and after</p>
+  <h2>Take the Crown</h2>
+  <p class="lead">At Ascension 10 the Hollow King waits on floor 200. Beat him, then choose what your heir does next. Climb Beyond goes on past floor 200. Return to the Manor ends the climb with the victory recorded. Take the Crown ends the climb too, and begins a Prestige.</p>
+  <p class="lead">In a Prestige the line starts again at Ascension 0. It loses its Manor, Armory, vestiges, gold, souls and heirs, and keeps its Prestige stars, the Codex and its history. Each Prestige star gives foes 15% more health and 10% more attack, and makes every climb pay 25% more gold and souls. Every Prestige starts with 3 Eclipse Sigils for each Prestige star.</p>
+  <h3 class="sub">Crownscars</h3>
+  <p>From Prestige 1, each climb opens with a hand of three Crownscars. An heir may take one: a boon, with a price, for the whole climb.</p>
+  <ul class="relics scars"><li><img src="img/ic_wraithskin.png" alt="" loading="lazy"><div><b>Wraithskin</b><span>45% of hits pass through you</span><span class="price">Take 50% more damage</span></div></li><li><img src="img/ic_ironsilence.png" alt="" loading="lazy"><div><b>Iron Silence</b><span>Block 25% of hits. Positive relic Armor 25% MORE</span><span class="price">Dodge locked to 0%</span></div></li><li><img src="img/ic_ashtongue.png" alt="" loading="lazy"><div><b>Ash-Tongue Icon</b><span>Attack abilities deal 100% MORE</span><span class="price">Basics deal 30% LESS</span></div></li><li><img src="img/ic_gloamengine.png" alt="" loading="lazy"><div><b>Gloam Engine</b><span>60% MORE attack speed</span><span class="price">First ability: 30s base cooldown</span></div></li><li><img src="img/ic_openveins.png" alt="" loading="lazy"><div><b>Crown of Open Veins</b><span>Basics steal 40%, up to 15% of your bar a hit</span><span class="price">Potions and abilities cannot heal</span></div></li><li><img src="img/ic_lastbell.png" alt="" loading="lazy"><div><b>The Last Bell</b><span>Crits deal 33% MORE</span><span class="price">Direct hits have a 5% chance to deal 1 damage</span></div></li><li><img src="img/ic_mirrorhunger.png" alt="" loading="lazy"><div><b>Mirror of Hunger</b><span>+700% thorns</span><span class="price">Take 15% more damage</span></div></li><li><img src="img/ic_graveglass.png" alt="" loading="lazy"><div><b>Graveglass Heart</b><span>Maximum HP +40%</span><span class="price">Healing 60% LESS</span></div></li><li><img src="img/ic_ashencovenant.png" alt="" loading="lazy"><div><b>The Ashen Covenant</b><span>Gold and Souls +200%</span><span class="price">Maximum HP 20% LESS</span></div></li><li><img src="img/ic_falsesun.png" alt="" loading="lazy"><div><b>The False Sun</b><span>Direct hits add Burn equal to 75% over 3s, stacking</span><span class="price">Attack speed 20% LESS</span></div></li><li><img src="img/ic_pallnail.png" alt="" loading="lazy"><div><b>Barrier Nail</b><span>Damage tears Barrier. Each shatter: 20% max HP, then 10%</span><span class="price">Bosses carry +35 Barrier</span></div></li><li><img src="img/ic_crownwake.png" alt="" loading="lazy"><div><b>The Crown's Wake</b><span>Echo 60% of hits onto every other enemy</span><span class="price">15% LESS to your target while another lives</span></div></li></ul>
+  <h3 class="sub">Crowned heirs</h3>
+  <p>Through every Prestige the line remembers the heirs who beat the Hollow King. These are its crowned heirs. In a later Prestige, one of them can meet your heir at the start of a climb, and the first meeting plays as a short painted comic. Take the crowned heir along as an ally, and the ally takes half of that climb's gold and souls. Or duel the crowned heir: a win brings a vestige and an Eclipse Sigil, and a loss kills your heir.</p>
+</div></section>
+
 <section class="block" id="grimoire"><div class="wrap">
   <p class="eyebrow">the grimoire</p>
   <h2>What waits on the stair</h2>
-  <p class="lead">Five zones of ten floors, each with its own foes, an elite that winds up heavy blows, and a gate keeper at the tenth floor. The lines are the Grimoire's own.</p>
+  <p class="lead">Five zones of ten floors, each with its own foes, an elite that winds up heavy blows, and a gate-keeper at the tenth floor. The lines are the Grimoire's own.</p>
   
   <section class="zone">
     <h3><span class="dim">Floors 1 to 10</span>The Undercroft</h3>
     <div class="foes">
       <figure><img src="img/z1_0.png" alt="" loading="lazy"><figcaption><b>Tomb Rat</b><span>It has eaten names off headstones. Yours would not be the first.</span></figcaption></figure><figure><img src="img/z1_1.png" alt="" loading="lazy"><figcaption><b>Skeleton</b><span>The Spire does not bury its dead. It employs them.</span></figcaption></figure><figure><img src="img/z1_2.png" alt="" loading="lazy"><figcaption><b>Grave Cultist</b><span>He dug so long for meaning that something answered.</span></figcaption></figure><figure><img src="img/z1_3.png" alt="" loading="lazy"><figcaption><b>Ghoul</b><span>Hunger taught it patience. The dark taught it everything else.</span></figcaption></figure>
       <figure class="elite"><img src="img/e1.png" alt="" loading="lazy"><figcaption><b>Bone Colossus</b><em>elite</em><span>A congregation of the dead that agreed, for once, on a shape.</span></figcaption></figure>
-      <figure class="boss"><img src="img/b1.png" alt="" loading="lazy"><figcaption><b>KHORVAX, the Interred</b><em>gate keeper</em><span>They buried him under the first floor. He remembers who held the spades.</span></figcaption></figure>
+      <figure class="boss"><img src="img/b1.png" alt="" loading="lazy"><figcaption><b>KHORVAX, the Interred</b><em>gate-keeper</em><span>They buried him under the first floor. He remembers who held the spades.</span></figcaption></figure>
     </div>
   </section>
   <section class="zone">
@@ -256,7 +397,7 @@
     <div class="foes">
       <figure><img src="img/z2_0.png" alt="" loading="lazy"><figcaption><b>Spore Drone</b><span>It was a miner once. The Deep found a better use for the body.</span></figcaption></figure><figure><img src="img/z2_1.png" alt="" loading="lazy"><figcaption><b>Myconid</b><span>It thinks in seasons. It kills in seconds.</span></figcaption></figure><figure><img src="img/z2_2.png" alt="" loading="lazy"><figcaption><b>Cave Crawler</b><span>It came out of the wall. It will go back in with you.</span></figcaption></figure><figure><img src="img/z2_3.png" alt="" loading="lazy"><figcaption><b>Blight Toad</b><span>Whatever it swallows continues, briefly, to scream.</span></figcaption></figure>
       <figure class="elite"><img src="img/e2.png" alt="" loading="lazy"><figcaption><b>Rot Shambler</b><em>elite</em><span>A garden that lost its gardener, then its temper.</span></figcaption></figure>
-      <figure class="boss"><img src="img/b2.png" alt="" loading="lazy"><figcaption><b>MYRRA, Mother of Spores</b><em>gate keeper</em><span>Every breath you take in her halls is an introduction.</span></figcaption></figure>
+      <figure class="boss"><img src="img/b2.png" alt="" loading="lazy"><figcaption><b>MYRRA, Mother of Spores</b><em>gate-keeper</em><span>Every breath you take in her halls is an introduction.</span></figcaption></figure>
     </div>
   </section>
   <section class="zone">
@@ -264,7 +405,7 @@
     <div class="foes">
       <figure><img src="img/z3_0.png" alt="" loading="lazy"><figcaption><b>Drowned One</b><span>The water finished with them. The grudge remained.</span></figcaption></figure><figure><img src="img/z3_1.png" alt="" loading="lazy"><figcaption><b>Siren Husk</b><span>The song left long ago. The mouth kept singing.</span></figcaption></figure><figure><img src="img/z3_2.png" alt="" loading="lazy"><figcaption><b>Brine Eel</b><span>Older than the flood that fed it. Angrier, too.</span></figcaption></figure><figure><img src="img/z3_3.png" alt="" loading="lazy"><figcaption><b>Coral Fiend</b><span>Beautiful the way a wound can be, from far enough away.</span></figcaption></figure>
       <figure class="elite"><img src="img/e3.png" alt="" loading="lazy"><figcaption><b>Deep Warden</b><em>elite</em><span>It keeps the one law of the halls: everything sinks.</span></figcaption></figure>
-      <figure class="boss"><img src="img/b3.png" alt="" loading="lazy"><figcaption><b>ULHET, the Tidebound</b><em>gate keeper</em><span>The sea took these halls long ago. He is how it keeps them.</span></figcaption></figure>
+      <figure class="boss"><img src="img/b3.png" alt="" loading="lazy"><figcaption><b>ULHET, the Tidebound</b><em>gate-keeper</em><span>The sea took these halls long ago. He is how it keeps them.</span></figcaption></figure>
     </div>
   </section>
   <section class="zone">
@@ -272,7 +413,7 @@
     <div class="foes">
       <figure><img src="img/z4_0.png" alt="" loading="lazy"><figcaption><b>Forgeborn</b><span>Cooled wrong, cast wrong, and entirely certain it was made on purpose.</span></figcaption></figure><figure><img src="img/z4_1.png" alt="" loading="lazy"><figcaption><b>Slag Hound</b><span>Poured, not whelped. It has never once been cold.</span></figcaption></figure><figure><img src="img/z4_2.png" alt="" loading="lazy"><figcaption><b>Cinder Wisp</b><span>A spark that refused the ash. Admirable. Lethal.</span></figcaption></figure><figure><img src="img/z4_3.png" alt="" loading="lazy"><figcaption><b>Pyromant</b><span>He asked the fire for wisdom. It taught him the only thing it knows.</span></figcaption></figure>
       <figure class="elite"><img src="img/e4.png" alt="" loading="lazy"><figcaption><b>Molten Sentinel</b><em>elite</em><span>The Foundry's final inspection. You are the defect.</span></figcaption></figure>
-      <figure class="boss"><img src="img/b4.png" alt="" loading="lazy"><figcaption><b>CALDUS, Furnace-King</b><em>gate keeper</em><span>His crown is a temperature.</span></figcaption></figure>
+      <figure class="boss"><img src="img/b4.png" alt="" loading="lazy"><figcaption><b>CALDUS, Furnace-King</b><em>gate-keeper</em><span>His crown is a temperature.</span></figcaption></figure>
     </div>
   </section>
   <section class="zone">
@@ -280,10 +421,10 @@
     <div class="foes">
       <figure><img src="img/z5_0.png" alt="" loading="lazy"><figcaption><b>Void Wisp</b><span>A hole shaped like a lantern, or the other way around.</span></figcaption></figure><figure><img src="img/z5_1.png" alt="" loading="lazy"><figcaption><b>Rift Stalker</b><span>It hunts along angles that geometry politely ignores.</span></figcaption></figure><figure><img src="img/z5_2.png" alt="" loading="lazy"><figcaption><b>Starving Angel</b><span>Grace, with the marrow sucked out.</span></figcaption></figure><figure><img src="img/z5_3.png" alt="" loading="lazy"><figcaption><b>Null Priest</b><span>He preaches an empty gospel to an empty room, and the room says amen.</span></figcaption></figure>
       <figure class="elite"><img src="img/e5.png" alt="" loading="lazy"><figcaption><b>Umbral Titan</b><em>elite</em><span>The Rift keeps one heavy thing, to remember weight by.</span></figcaption></figure>
-      <figure class="boss"><img src="img/b5.png" alt="" loading="lazy"><figcaption><b>THE SOVEREIGN</b><em>gate keeper</em><span>Fifty floors of loyalty, none of it earned. Kneel, or correct him.</span></figcaption></figure>
+      <figure class="boss"><img src="img/b5.png" alt="" loading="lazy"><figcaption><b>THE SOVEREIGN</b><em>gate-keeper</em><span>Fifty floors of loyalty, none of it earned. Kneel, or correct him.</span></figcaption></figure>
     </div>
   </section>
-  <p class="beyond">Past the summit the Spire echoes: The Ossuary Gardens, The Mirror Marsh, The Chandler's Halls, The Starving Church, The Clockwork Abyss. Those are yours to find.</p>
+  <p class="beyond">On odd ascensions the first fifty floors are other halls: The Ossuary Gardens, The Mirror Marsh, The Chandler's Halls, The Starving Church, The Clockwork Abyss. Above floor 50 the Spire rises through The Hollow Crown, The Star Larder, The Blood Archive, The Bell Foundries, The Roofless Throne. Past floor 100 the halls repeat, and every foe returns stronger as an Echoing foe. The foes of all ten halls are left for you to find.</p>
 </div></section>
 
 <section class="block" id="relics"><div class="wrap">
@@ -300,19 +441,19 @@
   <section class="rgroup r2">
     <h3>Epic <span class="dim">15</span></h3>
     <ul class="relics">
-      <li><img src="img/ic_seal.png" alt="" loading="lazy"><div><b>Executioner's Seal</b><span>+40% dmg</span></div></li><li><img src="img/ic_heart.png" alt="" loading="lazy"><div><b>Heart of the Spire</b><span>+30% max HP, +10% dmg</span></div></li><li><img src="img/ic_phoenix.png" alt="" loading="lazy"><div><b>Phoenix Ash</b><span>Cheat death once (revive at 50%)</span></div></li><li><img src="img/ic_void.png" alt="" loading="lazy"><div><b>Void Sliver</b><span>12% chance to strike twice</span></div></li><li><img src="img/ic_crown.png" alt="" loading="lazy"><div><b>Crown of Ruin</b><span>+25% dmg, +25% souls, −10% max HP</span></div></li><li><img src="img/ic_aegis.png" alt="" loading="lazy"><div><b>Aegis of the Line</b><span>+48% armor</span></div></li><li><img src="img/ic_ghost.png" alt="" loading="lazy"><div><b>Ghostcloth</b><span>+1200 evasion</span></div></li><li><img src="img/ic_thorncrown.png" alt="" loading="lazy"><div><b>Crown of Thorns</b><span>+135% thorns</span></div></li><li><img src="img/ic_echoheart.png" alt="" loading="lazy"><div><b>Echo of the First Heir</b><span>+25% dmg, +25% max HP</span></div></li><li><img src="img/ic_nullmantle.png" alt="" loading="lazy"><div><b>Null Mantle</b><span>Heavy blows deal 35% less, +22.5% armor</span></div></li><li><img src="img/ic_dmaw.png" alt="" loading="lazy"><div><b>The Sovereign's Maw</b><span>+50% dmg, −22% max HP</span></div></li><li><img src="img/ic_dgorge.png" alt="" loading="lazy"><div><b>The Gorging Wound</b><span>Basic attacks steal 11%, +15% dmg</span></div></li><li><img src="img/ic_dheart.png" alt="" loading="lazy"><div><b>The Slow Heart</b><span>+45% max HP, −10% attack speed</span></div></li><li><img src="img/ic_due.png" alt="" loading="lazy"><div><b>The Ferryman's Due</b><span>Once/fight: lethal damage spends your weakest relic and leaves 1 HP. Kill within 2s or die.</span><i>changes a rule</i></div></li><li><img src="img/ic_unmakingnail.png" alt="" loading="lazy"><div><b>The Unmaking Nail</b><span>All damage also tears Barrier by 75% of the max-HP share dealt</span><i>changes a rule</i></div></li>
+      <li><img src="img/ic_seal.png" alt="" loading="lazy"><div><b>Executioner's Seal</b><span>+40% dmg</span></div></li><li><img src="img/ic_heart.png" alt="" loading="lazy"><div><b>Heart of the Spire</b><span>+30% max HP, +10% dmg</span></div></li><li><img src="img/ic_phoenix.png" alt="" loading="lazy"><div><b>Phoenix Ash</b><span>Cheat death once (revive at 50%)</span></div></li><li><img src="img/ic_void.png" alt="" loading="lazy"><div><b>Void Sliver</b><span>12% chance to strike twice</span></div></li><li><img src="img/ic_crown.png" alt="" loading="lazy"><div><b>Crown of Ruin</b><span>+25% dmg, +25% souls, −10% max HP</span></div></li><li><img src="img/ic_aegis.png" alt="" loading="lazy"><div><b>Aegis of the Line</b><span>+48% armor</span></div></li><li><img src="img/ic_ghost.png" alt="" loading="lazy"><div><b>Ghostcloth</b><span>+1200 evasion</span></div></li><li><img src="img/ic_thorncrown.png" alt="" loading="lazy"><div><b>Crown of Thorns</b><span>+135% thorns</span></div></li><li><img src="img/ic_echoheart.png" alt="" loading="lazy"><div><b>Echo of the First Heir</b><span>+25% dmg, +25% max HP</span></div></li><li><img src="img/ic_nullmantle.png" alt="" loading="lazy"><div><b>Null Mantle</b><span>Heavy blows deal 35% less, +22.5% armor</span></div></li><li><img src="img/ic_dmaw.png" alt="" loading="lazy"><div><b>The Sovereign's Maw</b><span>+50% dmg, −22% max HP</span><i>from floor 51</i></div></li><li><img src="img/ic_dgorge.png" alt="" loading="lazy"><div><b>The Gorging Wound</b><span>Basic attacks steal 11%, +15% dmg</span><i>from floor 51</i></div></li><li><img src="img/ic_dheart.png" alt="" loading="lazy"><div><b>The Slow Heart</b><span>+45% max HP, −10% attack speed</span><i>from floor 51</i></div></li><li><img src="img/ic_due.png" alt="" loading="lazy"><div><b>The Ferryman's Due</b><span>Once/fight: lethal damage spends your weakest relic and leaves 1 HP. Kill within 2s or die.</span><i>changes a rule</i></div></li><li><img src="img/ic_unmakingnail.png" alt="" loading="lazy"><div><b>The Unmaking Nail</b><span>All damage also tears Barrier by 75% of the max-HP share dealt</span><i>changes a rule</i></div></li>
     </ul>
   </section>
   <section class="rgroup r1">
     <h3>Rare <span class="dim">45</span></h3>
     <ul class="relics">
-      <li><img src="img/ic_fang.png" alt="" loading="lazy"><div><b>Vampire Fang</b><span>Basic attacks steal 10%</span></div></li><li><img src="img/ic_ember.png" alt="" loading="lazy"><div><b>Ember Heart</b><span>Each hit adds Burn: 16.5% of that hit over 3s; contributions add</span></div></li><li><img src="img/ic_mirror.png" alt="" loading="lazy"><div><b>Mirror Shard</b><span>+72% thorns</span></div></li><li><img src="img/ic_hour.png" alt="" loading="lazy"><div><b>Cracked Hourglass</b><span>−20% cooldowns</span></div></li><li><img src="img/ic_fate.png" alt="" loading="lazy"><div><b>Sharpened Fate</b><span>+20% crit damage</span></div></li><li><img src="img/ic_vial.png" alt="" loading="lazy"><div><b>Blood Vial</b><span>Potions +60%</span></div></li><li><img src="img/ic_skin.png" alt="" loading="lazy"><div><b>Second Skin</b><span>+720 evasion</span></div></li><li><img src="img/ic_tithe.png" alt="" loading="lazy"><div><b>Tithe Bowl</b><span>+15% gold, +15% souls</span></div></li><li><img src="img/ic_wdie.png" alt="" loading="lazy"><div><b>Weighted Die</b><span>+1 to rolls, except the gambler; spare battle dice become crit damage</span></div></li><li><img src="img/ic_gorget.png" alt="" loading="lazy"><div><b>Scarred Gorget</b><span>Heavy blows deal 18% less, +10% max HP</span></div></li><li><img src="img/ic_lens.png" alt="" loading="lazy"><div><b>Cracked Lens</b><span>+12% crit chance, +7.5% crit damage</span></div></li><li><img src="img/ic_censer.png" alt="" loading="lazy"><div><b>Ash Censer</b><span>Each hit adds Burn: 10.5% of that hit over 3s; contributions add, +12% attack speed</span></div></li><li><img src="img/ic_ispur.png" alt="" loading="lazy"><div><b>Iron Spur</b><span>+12% attack speed, +8% dmg</span></div></li><li><img src="img/ic_wtooth.png" alt="" loading="lazy"><div><b>Wolf's Tooth</b><span>9% chance to strike twice</span></div></li><li><img src="img/ic_sscale.png" alt="" loading="lazy"><div><b>Serpent Scale</b><span>+63% thorns, +21% armor</span></div></li><li><img src="img/ic_plate.png" alt="" loading="lazy"><div><b>Warden's Plate</b><span>+33% armor</span></div></li><li><img src="img/ic_veil.png" alt="" loading="lazy"><div><b>Veil of Motes</b><span>+480 evasion, +8% attack speed</span></div></li><li><img src="img/ic_bulsig.png" alt="" loading="lazy"><div><b>Bulwark Sigil</b><span>Heavy blows deal 20% less</span></div></li><li><img src="img/ic_voidscale.png" alt="" loading="lazy"><div><b>Voidscale</b><span>+27% armor, +300 evasion</span></div></li><li><img src="img/ic_stoneheart.png" alt="" loading="lazy"><div><b>Stone Heart</b><span>The first heavy blow each fight is blocked</span><i>changes a rule</i></div></li><li><img src="img/ic_draught.png" alt="" loading="lazy"><div><b>Bitter Draught</b><span>A potion drunk while a foe winds up: +200% armor for 5s</span><i>changes a rule</i></div></li><li><img src="img/ic_mirrorstep.png" alt="" loading="lazy"><div><b>Mirror Step</b><span>Whenever you dodge an attack, answer it with 100% thorns, plus half your Thorns</span><i>changes a rule</i></div></li><li><img src="img/ic_keeperpulse.png" alt="" loading="lazy"><div><b>Keeper's Pulse</b><span>A Perfect cast: your next hit is a crit at +25% crit damage</span><i>changes a rule</i></div></li><li><img src="img/ic_threefold.png" alt="" loading="lazy"><div><b>Tithe of Three</b><span>Every third kill banks a block against the next heavy blow, 2 held at most</span><i>changes a rule</i></div></li><li><img src="img/ic_thornedvow.png" alt="" loading="lazy"><div><b>Thorned Vow</b><span>A heavy blow that lands while your second ability is on cooldown heals 25% max HP before the hit</span><i>changes a rule</i></div></li><li><img src="img/ic_dcarrion.png" alt="" loading="lazy"><div><b>Carrion Crown</b><span>+20% dmg, healing 35% weaker</span></div></li><li><img src="img/ic_dtally.png" alt="" loading="lazy"><div><b>The Long Tally</b><span>+0.4% hit damage per kill this climb, with diminishing gains, −8% max HP</span></div></li><li><img src="img/ic_dpurse.png" alt="" loading="lazy"><div><b>The Drowned Purse</b><span>+30% gold, +30% souls, −8% attack speed</span></div></li><li><img src="img/ic_dchalice.png" alt="" loading="lazy"><div><b>The Bone Chalice</b><span>Basic attacks steal 8%, healing 30% stronger</span></div></li><li><img src="img/ic_broth.png" alt="" loading="lazy"><div><b>Marrow Broth</b><span>Healing 35% stronger, +8% max HP</span></div></li><li><img src="img/ic_litany.png" alt="" loading="lazy"><div><b>Litany Stone</b><span>Abilities gain +12% power, −6% max HP</span></div></li><li><img src="img/ic_cuirass.png" alt="" loading="lazy"><div><b>Ribbed Cuirass</b><span>Jabs deal 30% less, +18% armor</span></div></li><li><img src="img/ic_widowthread.png" alt="" loading="lazy"><div><b>Widow's Thread</b><span>+16% crit chance, healing 25% weaker</span></div></li><li><img src="img/ic_ration.png" alt="" loading="lazy"><div><b>Thin Ration</b><span>+14% attack speed, −12% max HP</span></div></li><li><img src="img/ic_splitfang.png" alt="" loading="lazy"><div><b>Splitting Fang</b><span>Your hits deal 25% of their damage to each other foe</span></div></li><li><img src="img/ic_gravebite.png" alt="" loading="lazy"><div><b>Gravebite</b><span>After a timed Break tap on an enemy's Barrier, your next direct hit deals +50% damage</span><i>changes a rule</i></div></li><li><img src="img/ic_dirgebell.png" alt="" loading="lazy"><div><b>Dirge Bell</b><span>Perfect casts make the targeted foe deal 20% less damage for 5s</span><i>changes a rule</i></div></li><li><img src="img/ic_lowebb.png" alt="" loading="lazy"><div><b>The Low Ebb</b><span>Your hits deal +100% damage at 25% health or less</span><i>changes a rule</i></div></li><li><img src="img/ic_quietfont.png" alt="" loading="lazy"><div><b>Quiet Font</b><span>Start each fight with a 15% max-HP Ward for 8s</span><i>changes a rule</i></div></li><li><img src="img/ic_cl_helm.png" alt="" loading="lazy"><div><b>The Ringing Helm</b><span>Your hits deal 25% more damage to stunned foes</span><i>changes a rule</i></div></li><li><img src="img/ic_cl_breath.png" alt="" loading="lazy"><div><b>The Held Breath</b><span>Each dodge banks +4% power for your next first ability, up to 40%</span><i>changes a rule</i></div></li><li><img src="img/ic_cl_frost.png" alt="" loading="lazy"><div><b>The Deep Frost</b><span>Your hits deal 20% more damage to slowed foes</span><i>changes a rule</i></div></li><li><img src="img/ic_cl_cut.png" alt="" loading="lazy"><div><b>The Wide Cut</b><span>Your first ability deals 50% of its damage to each other foe</span><i>changes a rule</i></div></li><li><img src="img/ic_cl_splinter.png" alt="" loading="lazy"><div><b>Saint's Splinter</b><span>Your second ability grants +1 Sanctuary charge</span><i>changes a rule</i></div></li><li><img src="img/ic_cl_clay.png" alt="" loading="lazy"><div><b>The Restless Clay</b><span>Your Effigy attacks 2x as fast</span><i>changes a rule</i></div></li>
+      <li><img src="img/ic_fang.png" alt="" loading="lazy"><div><b>Vampire Fang</b><span>Basic attacks steal 10%</span></div></li><li><img src="img/ic_ember.png" alt="" loading="lazy"><div><b>Ember Heart</b><span>Each hit adds Burn: 16.5% of that hit over 3s; contributions add</span></div></li><li><img src="img/ic_mirror.png" alt="" loading="lazy"><div><b>Mirror Shard</b><span>+72% thorns</span></div></li><li><img src="img/ic_hour.png" alt="" loading="lazy"><div><b>Cracked Hourglass</b><span>−20% cooldowns</span></div></li><li><img src="img/ic_fate.png" alt="" loading="lazy"><div><b>Sharpened Fate</b><span>+20% crit damage</span></div></li><li><img src="img/ic_vial.png" alt="" loading="lazy"><div><b>Blood Vial</b><span>Potions +60%</span></div></li><li><img src="img/ic_skin.png" alt="" loading="lazy"><div><b>Second Skin</b><span>+720 evasion</span></div></li><li><img src="img/ic_tithe.png" alt="" loading="lazy"><div><b>Tithe Bowl</b><span>+15% gold, +15% souls</span></div></li><li><img src="img/ic_wdie.png" alt="" loading="lazy"><div><b>Weighted Die</b><span>+1 to rolls, except the gambler; spare battle dice become crit damage</span></div></li><li><img src="img/ic_gorget.png" alt="" loading="lazy"><div><b>Scarred Gorget</b><span>Heavy blows deal 18% less, +10% max HP</span></div></li><li><img src="img/ic_lens.png" alt="" loading="lazy"><div><b>Cracked Lens</b><span>+12% crit chance, +7.5% crit damage</span></div></li><li><img src="img/ic_censer.png" alt="" loading="lazy"><div><b>Ash Censer</b><span>Each hit adds Burn: 10.5% of that hit over 3s; contributions add, +12% attack speed</span></div></li><li><img src="img/ic_ispur.png" alt="" loading="lazy"><div><b>Iron Spur</b><span>+12% attack speed, +8% dmg</span></div></li><li><img src="img/ic_wtooth.png" alt="" loading="lazy"><div><b>Wolf's Tooth</b><span>9% chance to strike twice</span></div></li><li><img src="img/ic_sscale.png" alt="" loading="lazy"><div><b>Serpent Scale</b><span>+63% thorns, +21% armor</span></div></li><li><img src="img/ic_plate.png" alt="" loading="lazy"><div><b>Warden's Plate</b><span>+33% armor</span></div></li><li><img src="img/ic_veil.png" alt="" loading="lazy"><div><b>Veil of Motes</b><span>+480 evasion, +8% attack speed</span></div></li><li><img src="img/ic_bulsig.png" alt="" loading="lazy"><div><b>Bulwark Sigil</b><span>Heavy blows deal 20% less</span></div></li><li><img src="img/ic_voidscale.png" alt="" loading="lazy"><div><b>Voidscale</b><span>+27% armor, +300 evasion</span></div></li><li><img src="img/ic_stoneheart.png" alt="" loading="lazy"><div><b>Stone Heart</b><span>The first heavy blow each fight is blocked</span><i>changes a rule</i></div></li><li><img src="img/ic_draught.png" alt="" loading="lazy"><div><b>Bitter Draught</b><span>A potion drunk while a foe winds up: +200% armor for 5s</span><i>changes a rule</i></div></li><li><img src="img/ic_mirrorstep.png" alt="" loading="lazy"><div><b>Mirror Step</b><span>Whenever you dodge an attack, answer it with 100% thorns, plus half your Thorns</span><i>changes a rule</i></div></li><li><img src="img/ic_keeperpulse.png" alt="" loading="lazy"><div><b>Keeper's Pulse</b><span>A Perfect cast: your next hit is a crit at +25% crit damage</span><i>changes a rule</i></div></li><li><img src="img/ic_threefold.png" alt="" loading="lazy"><div><b>Tithe of Three</b><span>Every third kill banks a block against the next heavy blow, 2 held at most</span><i>changes a rule</i></div></li><li><img src="img/ic_thornedvow.png" alt="" loading="lazy"><div><b>Thorned Vow</b><span>A heavy blow that lands while your second ability is on cooldown heals 25% max HP before the hit</span><i>changes a rule</i></div></li><li><img src="img/ic_dcarrion.png" alt="" loading="lazy"><div><b>Carrion Crown</b><span>+20% dmg, healing 35% weaker</span><i>from floor 51</i></div></li><li><img src="img/ic_dtally.png" alt="" loading="lazy"><div><b>The Long Tally</b><span>+0.4% hit damage per kill this climb, with diminishing gains, −8% max HP</span><i>from floor 51</i></div></li><li><img src="img/ic_dpurse.png" alt="" loading="lazy"><div><b>The Drowned Purse</b><span>+30% gold, +30% souls, −8% attack speed</span><i>from floor 51</i></div></li><li><img src="img/ic_dchalice.png" alt="" loading="lazy"><div><b>The Bone Chalice</b><span>Basic attacks steal 8%, healing 30% stronger</span><i>from floor 51</i></div></li><li><img src="img/ic_broth.png" alt="" loading="lazy"><div><b>Marrow Broth</b><span>Healing 35% stronger, +8% max HP</span></div></li><li><img src="img/ic_litany.png" alt="" loading="lazy"><div><b>Litany Stone</b><span>Abilities gain +12% power, −6% max HP</span></div></li><li><img src="img/ic_cuirass.png" alt="" loading="lazy"><div><b>Ribbed Cuirass</b><span>Jabs deal 30% less, +18% armor</span></div></li><li><img src="img/ic_widowthread.png" alt="" loading="lazy"><div><b>Widow's Thread</b><span>+16% crit chance, healing 25% weaker</span></div></li><li><img src="img/ic_ration.png" alt="" loading="lazy"><div><b>Thin Ration</b><span>+14% attack speed, −12% max HP</span></div></li><li><img src="img/ic_splitfang.png" alt="" loading="lazy"><div><b>Splitting Fang</b><span>Your hits deal 25% of their damage to each other foe</span><i>from floor 101</i></div></li><li><img src="img/ic_gravebite.png" alt="" loading="lazy"><div><b>Gravebite</b><span>After a timed Break tap on an enemy's Barrier, your next direct hit deals +50% damage</span><i>changes a rule</i></div></li><li><img src="img/ic_dirgebell.png" alt="" loading="lazy"><div><b>Dirge Bell</b><span>Perfect casts make the targeted foe deal 20% less damage for 5s</span><i>changes a rule</i></div></li><li><img src="img/ic_lowebb.png" alt="" loading="lazy"><div><b>The Low Ebb</b><span>Your hits deal +100% damage at 25% health or less</span><i>changes a rule</i></div></li><li><img src="img/ic_quietfont.png" alt="" loading="lazy"><div><b>Quiet Font</b><span>Start each fight with a 15% max-HP Ward for 8s</span><i>changes a rule</i></div></li><li><img src="img/ic_cl_helm.png" alt="" loading="lazy"><div><b>The Ringing Helm</b><span>Your hits deal 25% more damage to stunned foes</span><i>changes a rule</i><i>from floor 101</i></div></li><li><img src="img/ic_cl_breath.png" alt="" loading="lazy"><div><b>The Held Breath</b><span>Each dodge banks +4% power for your next first ability, up to 40%</span><i>changes a rule</i><i>from floor 101</i></div></li><li><img src="img/ic_cl_frost.png" alt="" loading="lazy"><div><b>The Deep Frost</b><span>Your hits deal 20% more damage to slowed foes</span><i>changes a rule</i><i>from floor 101</i></div></li><li><img src="img/ic_cl_cut.png" alt="" loading="lazy"><div><b>The Wide Cut</b><span>Your first ability deals 50% of its damage to each other foe</span><i>changes a rule</i><i>from floor 101</i></div></li><li><img src="img/ic_cl_splinter.png" alt="" loading="lazy"><div><b>Saint's Splinter</b><span>Your second ability grants +1 Sanctuary charge</span><i>changes a rule</i><i>from floor 101</i></div></li><li><img src="img/ic_cl_clay.png" alt="" loading="lazy"><div><b>The Restless Clay</b><span>Your Effigy attacks 2x as fast</span><i>changes a rule</i><i>from floor 101</i></div></li>
     </ul>
   </section>
   <section class="rgroup r0">
     <h3>Common <span class="dim">37</span></h3>
     <ul class="relics">
-      <li><img src="img/ic_whet.png" alt="" loading="lazy"><div><b>Whetstone Idol</b><span>+12% dmg</span></div></li><li><img src="img/ic_ox.png" alt="" loading="lazy"><div><b>Ox-Bone Charm</b><span>+15% max HP</span></div></li><li><img src="img/ic_die.png" alt="" loading="lazy"><div><b>Loaded Die</b><span>+8% crit chance</span></div></li><li><img src="img/ic_coin.png" alt="" loading="lazy"><div><b>Ferryman's Coin</b><span>+20% gold</span></div></li><li><img src="img/ic_bell.png" alt="" loading="lazy"><div><b>Grave Bell</b><span>+20% souls</span></div></li><li><img src="img/ic_strap.png" alt="" loading="lazy"><div><b>Leather Strap</b><span>+15% armor, +5% max HP</span></div></li><li><img src="img/ic_soles.png" alt="" loading="lazy"><div><b>Swift Soles</b><span>+8% attack speed</span></div></li><li><img src="img/ic_flask.png" alt="" loading="lazy"><div><b>Pocket Flask</b><span>+1 potion, now</span></div></li><li><img src="img/ic_chip.png" alt="" loading="lazy"><div><b>Chipped Fang</b><span>+5% crit damage</span></div></li><li><img src="img/ic_rag.png" alt="" loading="lazy"><div><b>Bloodied Rag</b><span>Basic attacks steal 6%</span></div></li><li><img src="img/ic_tallow.png" alt="" loading="lazy"><div><b>Tallow Candle</b><span>Each hit adds Burn: 7.5% of that hit over 3s; contributions add</span></div></li><li><img src="img/ic_clasp.png" alt="" loading="lazy"><div><b>Rusted Clasp</b><span>−10% cooldowns</span></div></li><li><img src="img/ic_dshard.png" alt="" loading="lazy"><div><b>Dull Shard</b><span>+45% thorns</span></div></li><li><img src="img/ic_knuck.png" alt="" loading="lazy"><div><b>Bone Knuckles</b><span>5% chance to strike twice</span></div></li><li><img src="img/ic_pebble.png" alt="" loading="lazy"><div><b>Weighted Pebble</b><span>Heavy blows deal 10% less</span></div></li><li><img src="img/ic_twine.png" alt="" loading="lazy"><div><b>Gravebind Twine</b><span>+8% max HP, +12% armor</span></div></li><li><img src="img/ic_ward.png" alt="" loading="lazy"><div><b>Iron Ward</b><span>+21% armor</span></div></li><li><img src="img/ic_quick.png" alt="" loading="lazy"><div><b>Quicksilver Charm</b><span>+240 evasion</span></div></li><li><img src="img/ic_dcog.png" alt="" loading="lazy"><div><b>Bonewright's Cog</b><span>−16% cooldowns, −5% max HP</span></div></li><li><img src="img/ic_dshackle.png" alt="" loading="lazy"><div><b>Gravebound Shackle</b><span>+30% armor, −6% attack speed</span></div></li><li><img src="img/ic_dknot.png" alt="" loading="lazy"><div><b>Knot of Small Mercies</b><span>Healing 15% stronger, potions +40%</span></div></li><li><img src="img/ic_dthirst.png" alt="" loading="lazy"><div><b>Marrow Thirst</b><span>Basic attacks steal 10%, −6% max HP</span></div></li><li><img src="img/ic_dwhet.png" alt="" loading="lazy"><div><b>Whetted Bone</b><span>+20% dmg, −8% attack speed</span></div></li><li><img src="img/ic_moss.png" alt="" loading="lazy"><div><b>Grave Moss</b><span>Healing 20% stronger</span></div></li><li><img src="img/ic_salt.png" alt="" loading="lazy"><div><b>Pilgrim's Salt</b><span>Healing 12% stronger, +6% max HP</span></div></li><li><img src="img/ic_rustflake.png" alt="" loading="lazy"><div><b>Rust Flake</b><span>+16% dmg, healing 25% weaker</span></div></li><li><img src="img/ic_splint.png" alt="" loading="lazy"><div><b>Splint Ward</b><span>Jabs deal 20% less</span></div></li><li><img src="img/ic_bead.png" alt="" loading="lazy"><div><b>Chanter's Bead</b><span>Abilities gain +6% power</span></div></li><li><img src="img/ic_femur.png" alt="" loading="lazy"><div><b>Notched Femur</b><span>+0.2% hit damage per kill this climb, with diminishing gains</span></div></li><li><img src="img/ic_chalkring.png" alt="" loading="lazy"><div><b>Chalk Ring</b><span>+10% crit chance, −5% attack speed</span></div></li><li><img src="img/ic_millstone.png" alt="" loading="lazy"><div><b>Millstone</b><span>+27% armor, −5% attack speed</span></div></li><li><img src="img/ic_corpsewax.png" alt="" loading="lazy"><div><b>Corpsewax</b><span>+25% souls, −8% max HP</span></div></li><li><img src="img/ic_sackcloth.png" alt="" loading="lazy"><div><b>Sackcloth</b><span>+20% max HP, −15% gold</span></div></li><li><img src="img/ic_knuckle.png" alt="" loading="lazy"><div><b>Split Knuckle</b><span>+10% dmg, +8% max HP</span></div></li><li><img src="img/ic_cracksigil.png" alt="" loading="lazy"><div><b>Cracked Sigil</b><span>Every Break tap removes an extra 15% of the Barrier, even a miss. Half on the Hollow King</span><i>changes a rule</i></div></li><li><img src="img/ic_whistle.png" alt="" loading="lazy"><div><b>Bone Whistle</b><span>Critical hits slow that foe 20% for 2s</span><i>changes a rule</i></div></li><li><img src="img/ic_poultice.png" alt="" loading="lazy"><div><b>Ashen Poultice</b><span>At 33% health or less, take 15% less damage</span><i>changes a rule</i></div></li>
+      <li><img src="img/ic_whet.png" alt="" loading="lazy"><div><b>Whetstone Idol</b><span>+12% dmg</span></div></li><li><img src="img/ic_ox.png" alt="" loading="lazy"><div><b>Ox-Bone Charm</b><span>+15% max HP</span></div></li><li><img src="img/ic_die.png" alt="" loading="lazy"><div><b>Loaded Die</b><span>+8% crit chance</span></div></li><li><img src="img/ic_coin.png" alt="" loading="lazy"><div><b>Ferryman's Coin</b><span>+20% gold</span></div></li><li><img src="img/ic_bell.png" alt="" loading="lazy"><div><b>Grave Bell</b><span>+20% souls</span></div></li><li><img src="img/ic_strap.png" alt="" loading="lazy"><div><b>Leather Strap</b><span>+15% armor, +5% max HP</span></div></li><li><img src="img/ic_soles.png" alt="" loading="lazy"><div><b>Swift Soles</b><span>+8% attack speed</span></div></li><li><img src="img/ic_flask.png" alt="" loading="lazy"><div><b>Pocket Flask</b><span>+1 potion, now</span></div></li><li><img src="img/ic_chip.png" alt="" loading="lazy"><div><b>Chipped Fang</b><span>+5% crit damage</span></div></li><li><img src="img/ic_rag.png" alt="" loading="lazy"><div><b>Bloodied Rag</b><span>Basic attacks steal 6%</span></div></li><li><img src="img/ic_tallow.png" alt="" loading="lazy"><div><b>Tallow Candle</b><span>Each hit adds Burn: 7.5% of that hit over 3s; contributions add</span></div></li><li><img src="img/ic_clasp.png" alt="" loading="lazy"><div><b>Rusted Clasp</b><span>−10% cooldowns</span></div></li><li><img src="img/ic_dshard.png" alt="" loading="lazy"><div><b>Dull Shard</b><span>+45% thorns</span></div></li><li><img src="img/ic_knuck.png" alt="" loading="lazy"><div><b>Bone Knuckles</b><span>5% chance to strike twice</span></div></li><li><img src="img/ic_pebble.png" alt="" loading="lazy"><div><b>Weighted Pebble</b><span>Heavy blows deal 10% less</span></div></li><li><img src="img/ic_twine.png" alt="" loading="lazy"><div><b>Gravebind Twine</b><span>+8% max HP, +12% armor</span></div></li><li><img src="img/ic_ward.png" alt="" loading="lazy"><div><b>Iron Ward</b><span>+21% armor</span></div></li><li><img src="img/ic_quick.png" alt="" loading="lazy"><div><b>Quicksilver Charm</b><span>+240 evasion</span></div></li><li><img src="img/ic_dcog.png" alt="" loading="lazy"><div><b>Bonewright's Cog</b><span>−16% cooldowns, −5% max HP</span><i>from floor 51</i></div></li><li><img src="img/ic_dshackle.png" alt="" loading="lazy"><div><b>Gravebound Shackle</b><span>+30% armor, −6% attack speed</span><i>from floor 51</i></div></li><li><img src="img/ic_dknot.png" alt="" loading="lazy"><div><b>Knot of Small Mercies</b><span>Healing 15% stronger, potions +40%</span><i>from floor 51</i></div></li><li><img src="img/ic_dthirst.png" alt="" loading="lazy"><div><b>Marrow Thirst</b><span>Basic attacks steal 10%, −6% max HP</span><i>from floor 51</i></div></li><li><img src="img/ic_dwhet.png" alt="" loading="lazy"><div><b>Whetted Bone</b><span>+20% dmg, −8% attack speed</span><i>from floor 51</i></div></li><li><img src="img/ic_moss.png" alt="" loading="lazy"><div><b>Grave Moss</b><span>Healing 20% stronger</span></div></li><li><img src="img/ic_salt.png" alt="" loading="lazy"><div><b>Pilgrim's Salt</b><span>Healing 12% stronger, +6% max HP</span></div></li><li><img src="img/ic_rustflake.png" alt="" loading="lazy"><div><b>Rust Flake</b><span>+16% dmg, healing 25% weaker</span></div></li><li><img src="img/ic_splint.png" alt="" loading="lazy"><div><b>Splint Ward</b><span>Jabs deal 20% less</span></div></li><li><img src="img/ic_bead.png" alt="" loading="lazy"><div><b>Chanter's Bead</b><span>Abilities gain +6% power</span></div></li><li><img src="img/ic_femur.png" alt="" loading="lazy"><div><b>Notched Femur</b><span>+0.2% hit damage per kill this climb, with diminishing gains</span></div></li><li><img src="img/ic_chalkring.png" alt="" loading="lazy"><div><b>Chalk Ring</b><span>+10% crit chance, −5% attack speed</span></div></li><li><img src="img/ic_millstone.png" alt="" loading="lazy"><div><b>Millstone</b><span>+27% armor, −5% attack speed</span></div></li><li><img src="img/ic_corpsewax.png" alt="" loading="lazy"><div><b>Corpsewax</b><span>+25% souls, −8% max HP</span></div></li><li><img src="img/ic_sackcloth.png" alt="" loading="lazy"><div><b>Sackcloth</b><span>+20% max HP, −15% gold</span></div></li><li><img src="img/ic_knuckle.png" alt="" loading="lazy"><div><b>Split Knuckle</b><span>+10% dmg, +8% max HP</span></div></li><li><img src="img/ic_cracksigil.png" alt="" loading="lazy"><div><b>Cracked Sigil</b><span>Every Break tap removes an extra 15% of the Barrier, even a miss. Half on the Hollow King</span><i>changes a rule</i></div></li><li><img src="img/ic_whistle.png" alt="" loading="lazy"><div><b>Bone Whistle</b><span>Critical hits slow that foe 20% for 2s</span><i>changes a rule</i></div></li><li><img src="img/ic_poultice.png" alt="" loading="lazy"><div><b>Ashen Poultice</b><span>At 33% health or less, take 15% less damage</span><i>changes a rule</i></div></li>
     </ul>
   </section>
 </div></section>
@@ -323,13 +464,58 @@
   <p class="lead">From the first ascension, swear hardships at the Manor gate. Each oath raises what the Spire pays.</p>
   <ul class="oaths"><li><b>Oath of Thirst</b><span>No potions this climb. Gold and Souls +25%</span></li><li><b>Oath of the Bared Throat</b><span>Foes strike 25% harder. Gold and Souls +35%</span></li><li><b>Oath of Silence</b><span>Ability cooldowns are 50% longer. Gold and Souls +35%</span></li><li><b>Oath of Hunger</b><span>All healing you receive is halved. Gold and Souls +40%</span></li><li><b>Oath of Lead</b><span>Your swings land 15% slower. Gold and Souls +20%</span></li><li><b>Oath of the Dim Eye</b><span>Your crit chance is halved. Gold and Souls +75%</span></li></ul>
 </div></section>
-
+</main>
 <footer><div class="wrap">
   <p>Hollow Spire is made by Selim Celem. <a href="https://selimcelem.github.io/hollow-spire/privacy/">Privacy policy</a> · <a href="mailto:selim.celem@gmail.com">selim.celem@gmail.com</a></p>
-  <p>Version 101.4, build 120. Grenze Gotisch is used under the SIL Open Font License.</p>
+  <p>Version 101.5, build 121. Grenze Gotisch is used under the SIL Open Font License.</p>
 </div></footer>
 <button class="music" id="music" type="button" aria-pressed="false" title="The House Remembers"><b aria-hidden="true">♪</b><span>Play music</span></button>
 <script>
+/* The dice roll on a tap or a click, a phone included. */
+(() => {
+  const d = document.querySelector('.dice');
+  const card = d && d.closest('div');
+  if (card) card.addEventListener('click', () => { d.classList.remove('roll'); void d.offsetWidth; d.classList.add('roll'); });
+})();
+/* The sections: the one in view is marked, and on a phone the bar's button names it and opens the list. */
+(() => {
+  const nav = document.getElementById('nav'), btn = nav.querySelector('.toggle'), cur = nav.querySelector('.cur');
+  const links = [...nav.querySelectorAll('ul a')];
+  const setOpen = on => { nav.classList.toggle('open', on); btn.setAttribute('aria-expanded', String(on)); };
+  btn.addEventListener('click', () => setOpen(!nav.classList.contains('open')));
+  links.forEach(a => a.addEventListener('click', () => setOpen(false)));
+  document.addEventListener('click', e => { if (!nav.contains(e.target)) setOpen(false); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && nav.classList.contains('open')) { setOpen(false); btn.focus(); } });
+  const mark = id => { let name = 'Sections';
+    links.forEach(a => { const on = a.getAttribute('href') === '#' + id; if (on) { a.setAttribute('aria-current', 'location'); name = a.textContent; } else a.removeAttribute('aria-current'); });
+    cur.textContent = name; };
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) mark(e.target.id); }), {rootMargin: '-35% 0px -60% 0px'});
+    document.querySelectorAll('#top, main > section[id]').forEach(s => io.observe(s));
+  }
+})();
+/* The diary: pages I and II are open; the rest stay shut, and unloaded, until asked for. A shaking
+   hand is drawn word by word as the book draws it, off a seed, so it shakes the same way each visit. */
+(() => {
+  const t = document.getElementById('diary-toggle'), rest = document.getElementById('diary-rest'), close = document.getElementById('diary-close');
+  const rng = seed => { let s = (seed >>> 0) || 1; return () => { s ^= s << 13; s >>>= 0; s ^= s >>> 17; s ^= s << 5; s >>>= 0; return s / 4294967296; }; };
+  const shake = root => root.querySelectorAll('[data-ink]').forEach(el => {
+    const k = +el.dataset.ink, r = rng(+el.dataset.seed);
+    el.innerHTML = el.innerHTML.replace(/(<span class="cap">[^<]*<\/span>)|(<[^>]+>)|([^\s<]+)/g, (m, cap, tag, word) => {
+      if (cap || tag || !word) return m;
+      const dy = (r() - .5) * (.5 + 2.6 * k), rot = (r() - .5) * (.4 + 3.4 * k), op = 1 - r() * .32 * k, sp = (r() - .5) * .6 * k;
+      return '<span class="w" style="transform:translateY(' + dy.toFixed(2) + 'px) rotate(' + rot.toFixed(2) + 'deg);opacity:' + op.toFixed(2) + ';letter-spacing:' + sp.toFixed(2) + 'px">' + word + '</span>';
+    });
+    el.removeAttribute('data-ink');
+  });
+  if (!t || !rest) return;
+  const set = on => {
+    rest.hidden = !on; t.setAttribute('aria-expanded', String(on)); t.textContent = on ? 'Hide the rest of the diary' : 'Show the rest of the diary';
+    if (on) { rest.querySelectorAll('img[data-src]').forEach(i => { i.loading = 'lazy'; i.src = i.dataset.src; i.removeAttribute('data-src'); }); shake(rest); }
+  };
+  t.addEventListener('click', () => set(rest.hidden));
+  close.addEventListener('click', () => { set(false); t.scrollIntoView({block: 'center'}); t.focus({preventScroll: true}); });
+})();
 /* The House Remembers, the game's title score, off until tapped. The file holds one second
    either side of a 36 s loop, so any window of that length from 1 s loops seamlessly. */
 (() => {
